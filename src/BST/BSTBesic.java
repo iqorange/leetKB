@@ -226,6 +226,167 @@ public class BSTBesic<E extends Comparable<E>> {
     }
 
     /**
+     * --- 删除二分搜索树中的元素 ---
+     */
+
+    /**
+     * 寻找二分搜索树中的最小元素
+     * @return 返回该元素E
+     */
+    public E minimum(){
+        if (size == 0){
+            throw new IllegalArgumentException("BST is empty!");
+        }
+        return minimum(root).e;
+    }
+
+    /**
+     * 递归返回最小节点
+     * @param node 以node为节点
+     * @return 返回最小值
+     */
+    private Node minimum(Node node){
+        if (node.left == null){
+            return node;
+        }else{
+            return minimum(node.left);
+        }
+    }
+
+    /**
+     * 寻找二分搜索树中的最大元素
+     * @return 返回该元素E
+     */
+    public E maximum(){
+        if (size == 0){
+            throw new IllegalArgumentException("BST is empty!");
+        }
+        return maximum(root).e;
+    }
+
+    /**
+     * 递归返回最大节点
+     * @param node 以node为节点
+     * @return 返回最大值
+     */
+    private Node maximum(Node node){
+        if (node.right == null){
+            return node;
+        }else{
+            return maximum(node.right);
+        }
+    }
+
+    /**
+     * 删除最小值
+     * @return 返回最小值
+     */
+    public E removeMin(){
+        E ret = minimum();
+        removeMin(root);
+        return ret;
+    }
+
+    /**
+     * 删掉以node为根的二叉树中的最小节点
+     * @param node 每一层节点
+     * @return 返回二分搜索树新的根
+     */
+    private Node removeMin(Node node){
+        if (node.left == null){
+            // 不能丢右子树
+            Node rightNode = node.right;
+            node.right = null;
+            size--;
+            return rightNode;
+        }else{
+            node.left = removeMin(node.left);
+            return node;
+        }
+    }
+
+    /**
+     * 删除最大值
+     * @return 返回最大值
+     */
+    public E removeMax(){
+        E ret = maximum();
+        removeMax(root);
+        return ret;
+    }
+
+    /**
+     * 删掉以node为根的二叉树中的最大节点
+     * @param node 每一层节点
+     * @return 返回二分搜索树新的根
+     */
+    private Node removeMax(Node node){
+        if (node.right == null){
+            // 不能丢左子树
+            Node leftNode = node.left;
+            node.left = null;
+            size--;
+            return leftNode;
+        }else{
+            node.right = removeMin(node.right);
+            return node;
+        }
+    }
+
+    /**
+     * 从二分搜索树中删除e节点
+     * @param e 节点
+     */
+    public void remove(E e){
+        root = remove(root, e);
+    }
+
+    /**
+     * 私有方法递归删除
+     * @param node 根
+     * @param e 要删除的节点
+     * @return 返回根
+     */
+    private Node remove(Node node, E e){
+        if (node == null){
+            return null;
+        }
+        if (e.compareTo(node.e) < 0){
+            node.left = remove(node.left, e);
+            return node;
+        }else if (e.compareTo(node.e) >0){
+            node.right = remove(node.right, e);
+            return node;
+        }else{// node.e == e
+            // 左子树为空的情况
+            if (node.left == null){
+                Node rightNode = node.right;
+                node.right = null;
+                size--;
+                return rightNode;
+            }
+            // 右子树为空的情况
+            if (node.right == null){
+                Node leftNode = node.left;
+                node.left = null;
+                size--;
+                return leftNode;
+            }
+            // 左右子树均不为空
+            // 找到比待删除节点大的最小节点顶替
+            Node successor = minimum(node.right);
+            successor.right = removeMin(node.left);
+            successor.left = node.left;
+            node.left = node.right = null;
+            return successor;
+        }
+    }
+
+    /**
+     * --- 重写toString方法，自动打印输出树结构 ---
+     */
+
+    /**
      * 生成一个描述二叉树的字符串，使用前序遍历
      * @param node 根结点
      * @param depth 深度
