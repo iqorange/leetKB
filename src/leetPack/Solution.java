@@ -2,6 +2,7 @@ package leetPack;
 
 import LinkedList.ListNode;
 
+import javax.xml.soap.Node;
 import java.util.*;
 
 public class Solution {
@@ -15,6 +16,7 @@ public class Solution {
         }
         return str.toString();
     }
+
     // 1165. 单行键盘
     public int calculateTime(String keyboard, String word) {
         Map<Character, Integer> hashMap = new HashMap<>();
@@ -27,6 +29,7 @@ public class Solution {
         }
         return step;
     }
+
     // LCP 1. 猜数字
     public int game(int[] guess, int[] answer) {
         int num = 0;
@@ -41,6 +44,7 @@ public class Solution {
         }
         return num;
     }
+
     // 1281. 整数的各位积和之差
     public int subtractProductAndSum(int n) {
         String str = String.valueOf(n);
@@ -53,6 +57,7 @@ public class Solution {
         }
         return acc-sum;
     }
+
     // 1295. 统计位数为偶数的数字
     public int findNumbers(int[] nums) {
         int sum = 0;
@@ -63,6 +68,7 @@ public class Solution {
         }
         return sum;
     }
+
     // 1313. 解压缩编码列表
     public int[] decompressRLElist(int[] nums) {
         List<Integer> list = new ArrayList<Integer>();
@@ -73,6 +79,7 @@ public class Solution {
         }
         return list.stream().mapToInt(Integer::intValue).toArray();
     }
+
     // 771. 宝石与石头
     public int numJewelsInStones(String J, String S) {
         int count = 0;
@@ -87,9 +94,33 @@ public class Solution {
         }
         return count;
     }
+
     // 1108. IP 地址无效化
     public String defangIPaddr(String address) {
         address.replaceAll(".", "[.]");
         return address;
+    }
+
+    // 面试题58 - II. 左旋转字符串
+    public String reverseLeftWords(String s, int n) {
+        return s.substring(n,s.length()) + s.substring(0,n);
+    }
+
+    // 1290. 二进制链表转整数
+    public int getDecimalValue(ListNode head) {
+        int length = 1;
+        ListNode prev = head;
+        while (prev.next != null){
+            prev = prev.next;
+            length ++;
+        }
+        return getDecimalValue(head, length-1);
+    }
+    public int getDecimalValue(ListNode head, int length) {
+        if(head.next == null){
+            return 1*head.val;
+        }else{
+            return getDecimalValue(head.next, length-1) + (int)Math.pow(2, length)*head.val;
+        }
     }
 }
