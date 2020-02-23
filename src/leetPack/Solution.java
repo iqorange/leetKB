@@ -123,4 +123,91 @@ public class Solution {
             return getDecimalValue(head.next, length-1) + (int)Math.pow(2, length)*head.val;
         }
     }
+
+    // 804. 唯一摩尔斯密码词
+    public int uniqueMorseRepresentations(String[] words) {
+        String[] codes = {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
+        TreeSet<String> set = new TreeSet<>();
+        for (String word: words){
+            StringBuilder res = new StringBuilder();
+            for (int i=0;i<word.length();i++){
+                res.append(codes[word.charAt(i) - 'a']);
+            }
+            set.add(res.toString());
+        }
+        return set.size();
+    }
+
+    // 760. 找出变位映射
+    public int[] anagramMappings(int[] A, int[] B) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i=0;i<B.length;i++){
+            map.put(B[i], i);
+        }
+        int[] C = new int[A.length];
+        for (int i=0;i<A.length;i++){
+            C[i] = map.get(A[i]);
+        }
+        return C;
+    }
+
+    // 1266. 访问所有点的最小时间
+    public int minTimeToVisitAllPoints(int[][] points) {
+        int move = 0;
+        for(int i=1;i<points.length;i++){
+            move += Math.max(Math.abs(points[i][0]-points[i-1][0]), Math.abs(points[i][1]-points[i-1][1]));
+        }
+        return move;
+    }
+
+    // 面试题17. 打印从1到最大的n位数
+    public int[] printNumbers(int n) {
+        int[] arr = new int[(int)Math.pow(10, n)-1];
+        for(int i=0;i<arr.length;i++){
+            arr[i] = i+1;
+        }
+        return arr;
+    }
+
+    // 面试题27. 二叉树的镜像
+    public TreeNode mirrorTree(TreeNode root) {
+        if (root == null) return null;
+        if (root.left == null && root.right == null){
+            return root;
+        }else {
+            TreeNode temp = mirrorTree(root.left);
+            root.left = mirrorTree(root.right);
+            root.right = temp;
+            return root;
+        }
+    }
+
+    // 面试题 04.02. 最小高度树
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if (nums == null || nums.length==0) return null;
+        TreeNode root = new TreeNode(nums[nums.length/2]);
+        return sortedArrayToBST(nums, root);
+    }
+    public TreeNode sortedArrayToBST(int[] nums, TreeNode node) {
+        if(nums.length == 1){
+            return new TreeNode(nums[0]);
+        }else if (nums.length == 2){
+            node = new TreeNode(nums[1]);
+            node.left = new TreeNode(nums[0]);
+            return node;
+        }else{
+            node = new TreeNode(nums[nums.length/2]);
+            int lefts[] = new int[nums.length/2];
+            for (int i=0;i<nums.length/2;i++){
+                lefts[i] = nums[i];
+            }
+            node.left = sortedArrayToBST(lefts, node.left);
+            int[] rights = new int[(nums.length%2==0)?(nums.length/2-1):(nums.length/2)];
+            for (int i=nums.length/2+1, k=0;i<nums.length;i++, k++){
+                rights[k] = nums[i];
+            }
+            node.right = sortedArrayToBST(rights, node.right);
+            return node;
+        }
+    }
 }
