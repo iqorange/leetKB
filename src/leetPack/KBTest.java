@@ -11,5 +11,6 @@ public class KBTest {
 //        System.out.println(map.get("123"));
 //        System.out.println(map.get("456"));
         System.out.println(5/2);
+        System.out.println((Math.random()));
     }
 }

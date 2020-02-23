@@ -2,7 +2,6 @@ package leetPack;
 
 import LinkedList.ListNode;
 
-import javax.xml.soap.Node;
 import java.util.*;
 
 public class Solution {
@@ -116,7 +115,7 @@ public class Solution {
         }
         return getDecimalValue(head, length-1);
     }
-    public int getDecimalValue(ListNode head, int length) {
+    private int getDecimalValue(ListNode head, int length) {
         if(head.next == null){
             return 1*head.val;
         }else{
@@ -188,7 +187,7 @@ public class Solution {
         TreeNode root = new TreeNode(nums[nums.length/2]);
         return sortedArrayToBST(nums, root);
     }
-    public TreeNode sortedArrayToBST(int[] nums, TreeNode node) {
+    private TreeNode sortedArrayToBST(int[] nums, TreeNode node) {
         if(nums.length == 1){
             return new TreeNode(nums[0]);
         }else if (nums.length == 2){
@@ -209,5 +208,264 @@ public class Solution {
             node.right = sortedArrayToBST(rights, node.right);
             return node;
         }
+    }
+
+    // 面试题22. 链表中倒数第k个节点
+    public ListNode getKthFromEnd(ListNode head, int k) {
+        if (head == null) return null;
+        ListNode point = head;
+        ListNode car = head;
+        for (int i=1;i<k;i++){
+            car = car.next;
+        }
+        while (car.next!=null){
+            point = point.next;
+            car = car.next;
+        }
+        return point;
+    }
+
+    // 面试题55 - I. 二叉树的深度
+    public int maxDepth(TreeNode root) {
+        if (root == null){
+            return 0;
+        }else{
+            return Math.max(maxDepth(root.left) + 1, maxDepth(root.right) + 1);
+        }
+    }
+
+    // 面试题05. 替换空格
+    public String replaceSpace(String s) {
+        return s.replaceAll(" ", "%20");
+    }
+
+    // 237. 删除链表中的节点
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+
+    // 1351. 统计有序矩阵中的负数
+    public int countNegatives(int[][] grid) {
+        int count = 0;
+        for (int[] gd: grid){
+            for (int i=gd.length-1;i>=0;i--){
+                if (gd[i]<0){
+                    count++;
+                }else{
+                    break;
+                }
+            }
+        }
+        return count;
+    }
+
+    // 339. 嵌套列表权重和
+    public int depthSum(List<NestedInteger> nestedList) {
+        return depthSum(nestedList, 1);
+    }
+    private int depthSum(List<NestedInteger> nestedList, int depth) {
+        int sum = 0;
+        for (NestedInteger e: nestedList){
+            if (e.isInteger()){
+                sum += e.getInteger() * depth;
+            }else{
+                sum += depthSum(e.getList(), depth+1);
+            }
+        }
+        return sum;
+    }
+
+    // 面试题06. 从尾到头打印链表
+    public int[] reversePrint(ListNode head) {
+        if (head == null) return new int[0];
+        Stack<Integer> stack = new Stack<>();
+        int length = 0;
+        ListNode point = head;
+        while (point != null){
+            stack.push(point.val);
+            length++;
+            point = point.next;
+        }
+        int[] arr = new int[length];
+        for (int i=0;i<length;i++){
+            arr[i] = stack.pop();
+        }
+        return arr;
+    }
+    // 解法2
+    public int[] reversePrint2(ListNode head) {
+        return reversePrint2(head, 0);
+    }
+    private int[] reversePrint2(ListNode head, int depth) {
+        if (head == null){
+            return new int[depth];
+        }else{
+            int[] port = reversePrint2(head.next, depth+1);
+            port[port.length-depth-1] = head.val;
+            return port;
+        }
+    }
+
+    // 1221. 分割平衡字符串
+    public int balancedStringSplit(String s) {
+        int r = 0;
+        int l = 0;
+        int count = 0;
+        for (int i=0;i<s.length();i++){
+            if (s.charAt(i) == 'R'){
+                r++;
+            }else{
+                l++;
+            }
+            if (r == l){
+                count++;
+                r = l = 0;
+            }
+        }
+        return count;
+    }
+
+    // 面试题24. 反转链表
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null){
+            return head;
+        }
+        ListNode point = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return point;
+    }
+
+    // 1323. 6 和 9 组成的最大数字
+    public int maximum69Number (int num) {
+        String str = String.valueOf(num);
+        StringBuilder fnum = new StringBuilder();
+        boolean flag = true;
+        for (int i=0;i<str.length();i++){
+            if (str.charAt(i)=='6' && flag){
+                fnum.append('9');
+                flag = false;
+            }else{
+                fnum.append(str.charAt(i));
+            }
+        }
+        return Integer.parseInt(fnum.toString());
+    }
+
+    // 1021. 删除最外层的括号
+    public String removeOuterParentheses(String S) {
+        int num = 0;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i=0;i<S.length();i++){
+            if (S.charAt(i)=='('){
+                if (num != 0){
+                    stringBuilder.append('(');
+                }
+                num++;
+            }else{
+                if (num != 1){
+                    stringBuilder.append(')');
+                }
+                num--;
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+    // 938. 二叉搜索树的范围和
+    public int rangeSumBST(TreeNode root, int L, int R) {
+        if (root == null) return 0;
+        if (root.val>=L && root.val<=R) {
+            return root.val + rangeSumBST(root.left, L, R) + rangeSumBST(root.right, L, R);
+        }else if (root.val<L){
+            return rangeSumBST(root.right, L, R);
+        }else{
+            return rangeSumBST(root.left, L, R);
+        }
+    }
+
+    // 1085. 最小元素各数位之和
+    public int sumOfDigits(int[] A) {
+        Arrays.sort(A);
+        String str = String.valueOf(A[0]);
+        int S = 0;
+        for (int i=0;i<str.length();i++){
+            S +=Integer.parseInt(str.substring(i,i+1));
+        }
+        if (S%2==0){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
+    // 面试题25. 合并两个排序的链表
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if (l1 == null && l2 == null){
+            return null;
+        }
+        if (l1 == null) return l2;
+        if (l2 == null) return l1;
+        ListNode point;
+        if (l1.val <= l2.val){
+            point = l1;
+            point.next = mergeTwoLists(l1.next, l2);
+        }else{
+            point = l2;
+            point.next = mergeTwoLists(l1, l2.next);
+        }
+        return point;
+    }
+
+
+    // 1252. 奇数值单元格的数目
+    public int oddCells(int n, int m, int[][] indices) {
+        boolean[][] switches = new boolean[n][m];
+        for (int[] index: indices){
+            for (int i=0;i<m;i++){
+                switches[index[0]][i] = !(switches[index[0]][i]);
+            }
+            for (int i=0;i<n;i++){
+                switches[i][index[1]] = !(switches[i][index[1]]);
+            }
+        }
+        int count = 0;
+        for (boolean[] swes: switches){
+            for (boolean sw: swes){
+                if (sw) count++;
+            }
+        }
+        return count;
+    }
+
+    // 709. 转换成小写字母
+    public String toLowerCase(String str) {
+        return str.toLowerCase();
+    }
+
+    // 1304. 和为零的N个唯一整数
+    public int[] sumZero(int n) {
+        int[] num = new int[n];
+        if (n%2!=0){
+            num[n/2] = 0;
+        }
+        int sum = 1;
+        for (int i=0;i<n/2;i++){
+            num[i] = sum + (int)(Math.random()*3);
+            num[n-i-1] = -num[i];
+            sum +=3;
+        }
+        return num;
+    }
+
+    // 面试题15. 二进制中1的个数
+    public int hammingWeight(int n) {
+        String str = Integer.toBinaryString(n);
+        int count = 0;
+        for (int i=0;i<str.length();i++){
+            if (str.charAt(i) == '1') count++;
+        }
+        return count;
     }
 }
