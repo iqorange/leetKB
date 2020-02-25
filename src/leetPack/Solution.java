@@ -2,6 +2,7 @@ package leetPack;
 
 import LinkedList.ListNode;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Solution {
@@ -465,6 +466,269 @@ public class Solution {
         int count = 0;
         for (int i=0;i<str.length();i++){
             if (str.charAt(i) == '1') count++;
+        }
+        return count;
+    }
+
+    // 617. 合并二叉树
+    public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
+        if (t1 == null) return t2;
+        if (t2 == null) return t1;
+        t1.val += t2.val;
+        t1.left = mergeTrees(t1.left, t2.left);
+        t1.right = mergeTrees(t1.right, t2.right);
+        return t1;
+    }
+
+    // 461. 汉明距离
+    public int hammingDistance(int x, int y) {
+        String strx = Integer.toBinaryString(x);
+        String stry = Integer.toBinaryString(y);
+        if (strx.length()>stry.length()){
+            return hammingDistance(strx, stry);
+        }else{
+            return hammingDistance(stry, strx);
+        }
+    }
+    private int hammingDistance(String x, String y){
+        int count = 0;
+        for (int i=0;i<x.length();i++){
+
+            if (i<y.length()){
+                if (x.charAt(x.length()-i-1) != y.charAt(y.length()-i-1)){
+                    count++;
+                }
+            }else{
+                if (x.charAt(x.length()-i-1) == '1'){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    // 1213. 三个有序数组的交集
+    public List<Integer> arraysIntersection(int[] arr1, int[] arr2, int[] arr3) {
+        List forks = new LinkedList();
+        Set<Integer> set1 = new HashSet<>();
+        Set<Integer> set2 = new HashSet<>();
+        for (int e: arr1){
+            set1.add(e);
+        }
+        for (int e: arr2){
+            set2.add(e);
+        }
+        for (int e: arr3){
+            if (set1.contains(e) && set2.contains(e)){
+                forks.add(e);
+            }
+        }
+        return forks;
+    }
+
+    // 1134. 阿姆斯特朗数
+    public boolean isArmstrong(int N) {
+        String num = String.valueOf(N);
+        int k = num.length();
+        int sum = 0;
+        for (int i=0;i<k;i++){
+            sum += Math.pow(Integer.parseInt(num.substring(i, i+1)), k);
+        }
+        return sum==N;
+    }
+
+    // 832. 翻转图像
+    public int[][] flipAndInvertImage(int[][] A) {
+        Stack<Integer> stack = new Stack();
+        for (int i=0;i<A.length;i++){
+            for (int elem: A[i]){
+                stack.push(elem==1?0:1);
+            }
+            for (int j=0;j<A[i].length;j++){
+                A[i][j] = stack.pop();
+            }
+        }
+        return A;
+    }
+    // 解法2
+    public int[][] flipAndInvertImage2(int[][] A) {
+        int x = A.length;
+        int y = A[0].length;
+        int[][] B = new int[x][y];
+        for (int i=0;i<x;i++){
+            for (int j=0;j<y;j++){
+                B[i][j] = A[i][y-j-1]==1?0:1;
+            }
+        }
+        return B;
+    }
+
+    // 226. 翻转二叉树
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) return null;
+        TreeNode temp = root.left;
+        root.left = invertTree(root.right);
+        root.right = invertTree(temp);
+        return root;
+    }
+
+    // 1309. 解码字母到整数映射
+    public String freqAlphabets(String s) {
+        Map<String, String> map = new HashMap<>();
+        map.put("1", "a"); map.put("2", "b"); map.put("3", "c");
+        map.put("4", "d"); map.put("5", "e"); map.put("6", "f");
+        map.put("7", "g"); map.put("8", "h"); map.put("9", "i");
+        map.put("10#", "j"); map.put("11#", "k"); map.put("12#", "l");
+        map.put("13#", "m"); map.put("14#", "n"); map.put("15#", "o");
+        map.put("16#", "p"); map.put("17#", "q"); map.put("18#", "r");
+        map.put("19#", "s"); map.put("20#", "t"); map.put("21#", "u");
+        map.put("22#", "v"); map.put("23#", "w"); map.put("24#", "x");
+        map.put("25#", "y"); map.put("26#", "z");
+        StringBuilder str = new StringBuilder();
+        for (int i=0;i<s.length();i++){
+            if ((s.charAt(i)=='1' || s.charAt(i)=='2') && i<s.length()-2) {
+                if (s.charAt(i + 2) == '#') {
+                    str.append(map.get(s.substring(i, i + 3)));
+                    i += 2;
+                    continue;
+                }
+            }
+            str.append(map.get(s.substring(i, i+1)));
+        }
+        return str.toString();
+    }
+    // 解法2
+    public String freqAlphabets2(String s) {
+        StringBuilder str = new StringBuilder();
+        for(int i=0;i<s.length();i++){
+            if(i + 2 < s.length() && s.charAt(i + 2) == '#'){
+                str.append((char)('a' - 1 + Integer.parseInt(s.substring(i,i+2))));
+                i += 2;
+            }else{
+                str.append((char)('a' - 1 + s.charAt(i) - '0'));
+            }
+        }
+        return str.toString();
+    }
+
+    // 1299. 将每个元素替换为右侧最大元素
+    public int[] replaceElements(int[] arr) {
+        int tMax = -1;
+        int temp = 0;
+        for (int i=arr.length-1;i>=0;i--){
+            temp = arr[i];
+            arr[i] = tMax;
+            tMax = Math.max(temp, tMax);
+        }
+        return arr;
+    }
+
+    // 面试题54. 二叉搜索树的第k大节点
+    public int kthLargest(TreeNode root, int k) {
+        List<Integer> list = new LinkedList();
+        kthLargest(root, list);
+        return list.get(list.size()-k);
+    }
+    public void kthLargest(TreeNode root, List list) {
+        if (root == null) return;
+        kthLargest(root.left, list);
+        list.add(root.val);
+        kthLargest(root.right, list);
+    }
+
+    // 面试题 01.01. 判定字符是否唯一
+    public boolean isUnique(String astr) {
+        Set<Character> set = new HashSet<>();
+        for (int i=0;i<astr.length();i++){
+            set.add(astr.charAt(i));
+        }
+        if (set.size() == astr.length()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    // 657. 机器人能否返回原点
+    public boolean judgeCircle(String moves) {
+        int point = 0;
+        for (int i=0;i<moves.length();i++){
+            switch (moves.charAt(i)){
+                case 'L':
+                    point++;
+                    break;
+                case 'R':
+                    point--;
+                    break;
+                case 'U':
+                    point +=2;
+                    break;
+                case 'D':
+                    point -=2;
+                    break;
+                default:
+            }
+        }
+        return point==0;
+    }
+
+    // 面试题 01.02. 判定是否互为字符重排
+    public boolean CheckPermutation(String s1, String s2) {
+        if (s1.length()!=s2.length()) return false;
+        char[] c1 = s1.toCharArray();
+        char[] c2 = s2.toCharArray();
+        Arrays.sort(c1);
+        Arrays.sort(c2);
+        for (int i=0;i<c1.length;i++){
+            if (c1[i]!=c2[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // 1180. 统计只含单一字母的子串
+    public int countLetters(String S) {
+        int count = 1;
+        int sum = 1;
+        for (int i=1;i<S.length();i++){
+            if (S.charAt(i)==S.charAt(i-1)){
+                count++;
+            }else{
+                count = 1;
+            }
+            sum += count;
+        }
+        return sum;
+    }
+
+    // 728. 自除数
+    public List<Integer> selfDividingNumbers(int left, int right) {
+        List<Integer> list = new LinkedList<>();
+        for (int i=left;i<=right;i++){
+            int num = i;
+            boolean flag = true;
+            while (num>0){
+                if (num%10==0 || i%(num%10)!=0){
+                    flag = false;
+                    break;
+                }
+                num /= 10;
+            }
+            if (flag){
+                list.add(i);
+            }
+        }
+        return list;
+    }
+
+    // 1051. 高度检查器
+    public int heightChecker(int[] heights) {
+        int count = 0;
+        int[] stu = heights.clone();
+        Arrays.sort(stu);
+        for (int i=0;i<stu.length;i++){
+            if (stu[i]!=heights[i]) count++;
         }
         return count;
     }
