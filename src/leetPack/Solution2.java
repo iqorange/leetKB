@@ -303,5 +303,18 @@ public class Solution2 {
         return count;
     }
 
-
+    // 面试题 02.01. 移除重复节点
+    public ListNode removeDuplicateNodes(ListNode head) {
+        Set<Integer> set = new HashSet<>();
+        return removeDuplicateNodes(head, set);
+    }
+    public ListNode removeDuplicateNodes(ListNode head, Set<Integer> set) {
+        if (head == null) return null;
+       if (set.contains(head.val)){
+           return removeDuplicateNodes(head.next, set);
+       }
+       set.add(head.val);
+       head.next = removeDuplicateNodes(head.next, set);
+       return head;
+    }
 }
