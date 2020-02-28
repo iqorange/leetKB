@@ -308,7 +308,7 @@ public class Solution2 {
         Set<Integer> set = new HashSet<>();
         return removeDuplicateNodes(head, set);
     }
-    public ListNode removeDuplicateNodes(ListNode head, Set<Integer> set) {
+    private ListNode removeDuplicateNodes(ListNode head, Set<Integer> set) {
         if (head == null) return null;
        if (set.contains(head.val)){
            return removeDuplicateNodes(head.next, set);
@@ -316,5 +316,140 @@ public class Solution2 {
        set.add(head.val);
        head.next = removeDuplicateNodes(head.next, set);
        return head;
+    }
+
+    // 559. N叉树的最大深度
+    public int maxDepth(Node root) {
+        if (root == null) return 0;
+        int max = 0;
+        for (int i=0;i<root.children.size();i++){
+            max = Math.max(maxDepth(root.children.get(i)), max);
+        }
+        return max+1;
+    }
+
+    // 944. 删列造序
+    public int minDeletionSize(String[] A) {
+        int count = 0;
+        for (int i=0;i<A[0].length();i++){
+            for (int j=0;j<A.length-1;j++){
+                if(A[j].charAt(i)>A[j+1].charAt(i)){
+                    count++;
+                    break;
+                }
+            }
+        }
+        return count;
+    }
+
+    // 500. 键盘行
+    public String[] findWords(String[] words) {
+        List<String> s = new LinkedList<>();
+        Set<Character>[] set = new Set[3];
+        String[] k = new String[3];
+        k[0] = "qwertyuiop";
+        k[1] = "asdfghjkl";
+        k[2] = "zxcvbnm";
+        for (int p = 0;p<3;p++){
+            set[p] = new HashSet<>();
+            for (int i=0;i<k[p].length();i++){
+                set[p].add(k[p].charAt(i));
+            }
+        }
+        for (String e: words){
+            String elem = e.toLowerCase();
+            List<Character> t = new ArrayList<>(e.length());
+            for (int i=0;i<e.length();i++){
+                t.add(elem.charAt(i));
+            }
+            for (Set sett: set){
+                if (sett.containsAll(t)){
+                    s.add(e);
+                    break;
+                }
+            }
+        }
+        return s.toArray(new String[s.size()]);
+    }
+
+    // 1207. 独一无二的出现次数
+    public boolean uniqueOccurrences(int[] arr) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int e: arr){
+            map.put(e, map.getOrDefault(e, 0)+1);
+        }
+        return map.size() == new HashSet<>(map.values()).size();
+    }
+
+    // 905. 按奇偶排序数组
+    public int[] sortArrayByParity(int[] A) {
+        List<Integer> list1 = new LinkedList<>();
+        List<Integer> list2 = new LinkedList<>();
+        for (int e: A){
+            if (e%2==0){
+                list1.add(e);
+            }else{
+                list2.add(e);
+            }
+        }
+        list1.addAll(list2);
+        int[] arr = new int[list1.size()];
+        for (int i=0;i<list1.size();i++){
+            arr[i] = list1.get(i);
+        }
+        return arr;
+    }
+
+    // 476. 数字的补数
+    public int findComplement(int num) {
+        String str = Integer.toBinaryString(num);
+        int sum = 0;
+        for (int i=str.length()-1, k=0;i>=0;i--, k++){
+            if (str.charAt(i)=='0'){
+                if (k==0){
+                    sum++;
+                }else{
+                    sum += Math.pow(2, k);
+                }
+            }
+        }
+        return sum;
+    }
+
+    // 1237. 找出给定方程的正整数解
+    public List<List<Integer>> findSolution(CustomFunction customfunction, int z) {
+        List<Integer> t;
+        List<List<Integer>> lists = new LinkedList<>();
+        for(int i=1;i<=1000;i++){
+            for(int j=1;j<=1000;j++){
+                if (customfunction.f(i, j) == z){
+                    t = new ArrayList<>(2);
+                    t.add(i);
+                    t.add(j);
+                    lists.add(t);
+                    t = null;
+                }else if (customfunction.f(i, j)>z){
+                    break;
+                }
+            }
+        }
+        return lists;
+    }
+
+    // 1356. 根据数字二进制下 1 的数目排序
+    public int[] sortByBits(int[] arr) {
+        Integer[] nums = new Integer[arr.length];
+        for (int i=0;i<arr.length;i++){
+            nums[i] = arr[i];
+        }
+        Arrays.sort(nums, (o1, o2) -> {
+            int bitA = Integer.bitCount(o1);
+            int bitB = Integer.bitCount(o2);
+            return bitA == bitB ? o1-o2 : bitA-bitB;
+        });
+        for (int i=0;i<arr.length;i++){
+            arr[i] = nums[i];
+        }
+        return arr;
     }
 }
