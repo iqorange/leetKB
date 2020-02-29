@@ -452,4 +452,235 @@ public class Solution2 {
         }
         return arr;
     }
+
+    // 1217. 玩筹码
+    public int minCostToMoveChips(int[] chips) {
+        int odd = 0;
+        int even = 0;
+        for (int e: chips){
+            if (e%2==0){
+                even++;
+            }else{
+                odd++;
+            }
+        }
+        return Math.min(odd, even);
+    }
+
+    // 206. 反转链表
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null){
+            return head;
+        }
+        ListNode prev = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return prev;
+    }
+
+    // 965. 单值二叉树
+    public boolean isUnivalTree(TreeNode root) {
+        return isUnivalTree(root, root.val);
+    }
+    private boolean isUnivalTree(TreeNode root, int val) {
+        if (root == null) return true;
+        if (root.val != val) return false;
+        return isUnivalTree(root.left, val) && isUnivalTree(root.right, val);
+    }
+
+    // 922. 按奇偶排序数组 II
+    public int[] sortArrayByParityII(int[] A) {
+        List<Integer> odd = new LinkedList<>();
+        List<Integer> even = new LinkedList<>();
+        for (int e: A){
+            if (e%2==0){
+                even.add(e);
+            }else{
+                odd.add(e);
+            }
+        }
+        int[] B = new int[A.length];
+        for (int i=0;i<B.length/2;i++){
+            B[i*2] = even.get(i);
+            B[i*2+1] = odd.get(i);
+        }
+        return B;
+    }
+    // 解法2
+    public int[] sortArrayByParityII2(int[] A) {
+        int[] B = new int[A.length];
+        int odd = 1;
+        int even = 0;
+        for (int e: A){
+            if (e%2==0){
+                B[even] = e;
+                even += 2;
+            }else{
+                B[odd] = e;
+                odd += 2;
+            }
+        }
+        return B;
+    }
+
+    // 867. 转置矩阵
+    public int[][] transpose(int[][] A) {
+        int[][] B = new int[A[0].length][A.length];
+        for (int i=0;i<A.length;i++){
+            for (int j=0;j<A[0].length;j++){
+                B[j][i] = A[i][j];
+            }
+        }
+        return B;
+    }
+
+    // 1047. 删除字符串中的所有相邻重复项
+    public String removeDuplicates(String S) {
+        for (int i=0;i<S.length()-1;i++){
+            if (S.charAt(i) == S.charAt(i+1)){
+                S = S.replace(S.substring(i, i+2), "");
+                i = -1;
+            }
+        }
+        return S;
+    }
+
+    // 762. 二进制表示中质数个计算置位
+    public int countPrimeSetBits(int L, int R) {
+        int count = 0;
+        Set<Integer> set = new HashSet<>();
+        set.add(2);set.add(3);set.add(5);set.add(7);set.add(11);set.add(13);set.add(17);set.add(19);set.add(23);set.add(29);
+        for (int i=L;i<=R;i++){
+            String s = Integer.toBinaryString(i);
+            int bcount = 0;
+            for (int j=0;j<s.length();j++){
+                if (s.charAt(j) == '1'){
+                    bcount++;
+                }
+            }
+            if (set.contains(bcount)){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    // 171. Excel表列序号
+    public int titleToNumber(String s) {
+        int sum = 0;
+        for (int i=s.length()-1, k=0;i>=0;i--, k++){
+            if (i == s.length()-1){
+                sum += s.charAt(i) - 'A' + 1;
+            }else{
+                sum += (s.charAt(i) - 'A' + 1)*Math.pow(26,k);
+            }
+        }
+        return sum;
+    }
+
+    // 面试题21. 调整数组顺序使奇数位于偶数前面
+    public int[] exchange(int[] nums) {
+        List<Integer> odd = new LinkedList<>();
+        List<Integer> even = new LinkedList<>();
+        for (int e: nums){
+            if (e%2==0){
+                even.add(e);
+            }else{
+                odd.add(e);
+            }
+        }
+        int[] B = new int[nums.length];
+        odd.addAll(even);
+        for (int i=0;i<nums.length;i++){
+            if (!odd.isEmpty()){
+                B[i] = odd.get(i);
+            }
+        }
+        return B;
+    }
+    // 解法2
+    public int[] exchange2(int[] nums) {
+        int point = 0;
+        int[] arr = new int[nums.length];
+        Stack<Integer> stack = new Stack<>();
+        for (int e: nums){
+            if (e%2==1){
+                arr[point] = e;
+                point++;
+            }else{
+                stack.push(e);
+            }
+        }
+        while (!stack.isEmpty()){
+            arr[point] = stack.pop();
+            point++;
+        }
+        return arr;
+    }
+
+    // 面试题39. 数组中出现次数超过一半的数字
+    public int majorityElement(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int e:nums){
+            map.put(e, map.getOrDefault(e, 0) + 1);
+        }
+        for (Map.Entry<Integer, Integer> e: map.entrySet()){
+            if (e.getValue()>nums.length/2){
+                return e.getKey();
+            }
+        }
+        return 0;
+    }
+    // 解法2
+    public int majorityElement2(int[] nums) {
+        Arrays.sort(nums);
+        return nums[nums.length/2];
+    }
+    // 解法3 摩尔投票法
+    public int majorityElement3(int[] nums) {
+        int count = 0;
+        Integer card = null;
+        for (int e: nums){
+            if (count == 0) card = e;
+            count += card==e?1:-1;
+        }
+        return card;
+    }
+
+    // 821. 字符的最短距离
+    public int[] shortestToChar(String S, char C) {
+        String[] strings = S.split(String.valueOf(C));
+        Set<Integer> set = new HashSet<>();
+        int[] arr = new int[S.length()];
+        for (int i=0;i<S.length();i++){
+            if (S.charAt(i) == C){
+                set.add(i);
+                arr[i] = 0;
+            }
+        }
+        int point = 0;
+        for (String str: strings){
+            while (set.contains(point)) point++;
+            for (int i=0;i<str.length();i++){
+                if (point+i == 0){
+                    arr[0] = str.length();
+                }else if (i == 0){
+                    arr[point + i] = 1;
+                }else{
+                    arr[point + i] = arr[point + i - 1]+1;
+                }
+            }
+            for (int k=str.length()-1;k>0;k--){
+                if (point + k == arr.length-1){
+                    arr[arr.length-1] = str.length();
+                }else if (k == str.length()-1){
+                    arr[point+  k] = 1;
+                }else{
+                    arr[point + k] = Math.min(arr[point + k + 1]+1, arr[point + k]);
+                }
+            }
+            point += str.length();
+        }
+        return arr;
+    }
 }

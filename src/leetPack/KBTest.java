@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class KBTest {
     public static void main(String[] args) {
-        Solution solution = new Solution();
+//        Solution solution = new Solution();
 //        Map<String, Integer> map = new HashMap<>();
 //        map.put("123", 123);
 //        System.out.println(map.get("123"));
@@ -15,9 +15,10 @@ public class KBTest {
 //        System.out.println(5/2);
 //        System.out.println((Math.random()));
 //        solution.hammingDistance(1, 4);
-        solution.isArmstrong(153);
-        System.out.println(1/10);
-        List list = new LinkedList();
-        list.get(1);
+//        solution.isArmstrong(153);
+//        System.out.println(1/10);
+//        List list = new LinkedList();
+//        list.get(1);
+        System.out.println(Integer.toBinaryString(10000).length());
     }
 }
