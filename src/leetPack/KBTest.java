@@ -19,6 +19,6 @@ public class KBTest {
 //        System.out.println(1/10);
 //        List list = new LinkedList();
 //        list.get(1);
-        System.out.println(Integer.toBinaryString(10000).length());
+//        System.out.println(Integer.toBinaryString(10000).length());
     }
 }

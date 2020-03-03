@@ -683,4 +683,35 @@ public class Solution2 {
         }
         return arr;
     }
+
+    // 521. 最长特殊序列 Ⅰ
+    public int findLUSlength(String a, String b) {
+        return a.equals(b)?-1:Math.max(a.length(), b.length());
+    }
+
+    // 908. 最小差值 I
+    public int smallestRangeI(int[] A, int K) {
+        if (A == null || A.length==1){
+            return 0;
+        }
+        Arrays.sort(A);
+        int max = A[A.length-1];
+        int min = A[0];
+        if(max -K>min+K){
+            return max-min-2*K;
+        }
+        return 0;
+    }
+
+    // 面试题 10.05. 稀疏数组搜索
+    public int findString(String[] words, String s) {
+        for (int i=0;i<words.length;i++){
+            if (words[i].equals(s)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
 }
