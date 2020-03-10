@@ -107,4 +107,28 @@ public class Solution4 {
         result[1] = length;
         return result;
     }
+
+    // 347. 前 K 个高频元素
+    public List<Integer> topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num: nums){
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        PriorityQueue<Integer> pq = new PriorityQueue<>(
+                ((o1, o2) -> map.get(o1)-map.get(o2))
+        );
+        for (int key: map.keySet()){
+            if (pq.size()<k){
+                pq.add(key);
+            }else if (map.get(key)>map.get(pq.peek())){
+                pq.remove();
+                pq.add(key);
+            }
+        }
+        LinkedList<Integer> res = new LinkedList<>();
+        while (!pq.isEmpty()){
+            res.add(pq.remove());
+        }
+        return res;
+    }
 }
