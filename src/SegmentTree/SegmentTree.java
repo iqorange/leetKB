@@ -91,6 +91,34 @@ public class SegmentTree<E> {
         }
     }
 
+    // 更新操作，将index的值更新为e
+    public void set(int index, E e){
+        if (index<0 || index>=data.length){
+            throw new IllegalArgumentException("Index is Illegal.");
+        }
+        data[index] = e;
+        set(0, 0, data.length-1, index, e);
+    }
+
+    private void  set(int treeIndex, int l, int r, int index, E e){
+        if (l==r){
+            tree[treeIndex] = e;
+            return;
+        }
+        int middle = l + (r - l) / 2;
+        int leftTreeIndex = leftChild(treeIndex);
+        int rightTreeIndex = rightChild(treeIndex);
+        if (index>=middle+1){
+            set(rightTreeIndex, middle+1, r, index, e);
+        }else{
+            set(leftTreeIndex, l, middle, index, e);
+        }
+        // 更新一下祖先节点
+        tree[treeIndex] = merger.merge(tree[leftTreeIndex], tree[rightTreeIndex]);
+    }
+
+    // TODO lazy数组->懒惰更新
+
     // 重写toString打印输出
     @Override
     public String toString() {
