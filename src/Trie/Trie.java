@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 // 208. 实现 Trie (前缀树)
+// 字典树多用于如通讯录这样的字符串存储结构，复杂度只与字符串长度有关
 // 字典树Trie-使用TreeMap辅助实现
 public class Trie {
     // 创建私有节点类

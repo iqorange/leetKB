@@ -1,6 +1,7 @@
 package UnionFind;
 
 // 并查集接口
+// 并查集是一种子节点指向父节点的特殊的树结构
 public interface UF {
     // 返回并查集的元素数
     int getSize();

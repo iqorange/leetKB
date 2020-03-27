@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
+// 二分搜索树的基本实现，完全随机的数据性能很好，但极端情况会退化成链表
 // E要有可比较性Comparable
 public class BSTBesic<E extends Comparable<E>> {
     //二分搜索树的节点定义

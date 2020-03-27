@@ -1,7 +1,7 @@
 package AVLTree;
 
 import java.util.ArrayList;
-// AVL平衡二叉树
+// AVL平衡二叉树，适合多查询
 public class AVLTree<K extends Comparable<K>, V> {
 
     private class Node{
