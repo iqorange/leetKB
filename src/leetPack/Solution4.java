@@ -145,4 +145,41 @@ public class Solution4 {
         }
         return -1;
     }
+
+    // 766. 托普利茨矩阵
+    public boolean isToeplitzMatrix(int[][] matrix) {
+        if (matrix.length == 0){
+            return false;
+        }
+        for (int i=0;i<matrix.length-1;i++){
+            for (int j=0;j<matrix[i].length-1;j++){
+                if (matrix[i][j] != matrix[i+1][j+1]){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    // 566. 重塑矩阵
+    public int[][] matrixReshape(int[][] nums, int r, int c) {
+        if ((nums.length==0) || (nums.length*nums[0].length != r*c)){
+            return nums;
+        }
+        int[][] res = new int[r][c];
+        int pointR = 0;
+        int pointC = 0;
+        for (int[] num: nums){
+            for (int n: num){
+                if (pointC == c){
+                    pointC = 0;
+                    pointR++;
+                }
+                res[pointR][pointC] = n;
+                pointC++;
+            }
+        }
+        return res;
+    }
+    
 }

@@ -20,5 +20,7 @@ public class KBTest {
 //        List list = new LinkedList();
 //        list.get(1);
 //        System.out.println(Integer.toBinaryString(10000).length());
+        String s = "123456";
+        System.out.println(s.indexOf("+"));
     }
 }
