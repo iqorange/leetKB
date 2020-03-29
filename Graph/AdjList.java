@@ -2,27 +2,26 @@ package Graph;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 
-// 邻接矩阵
-// 处理无向无权图简单图
-// 空间复杂度：O(V^2)
+// 邻接表
+// 空间复杂度：O(V+E)
 // 时间复杂度：
-// *  建图：O(E)
-// *  查看两点是否相邻：O(1)
-// *  求一个点的相邻节点：O(V)
+// *  建图：O(E)，如果查重：O(E*V)
+// *  查看两点是否相邻：O(degree(v))
+// *  求一个点的相邻节点：O(degree(v))
 // **
-public class AdjMatrix {
+public class AdjList {
     // 表示整个图有V个顶点
     private int V;
     // 表示整个图有E条边
     private int E;
-    // 用数组形式创建邻接矩阵
-    private int[][] adj;
+    // 用链表形式创建邻接表
+    private LinkedList<Integer>[] adj;
 
     // 通过读取一个文件来输入数据
-    public AdjMatrix(String fileName){
+    public AdjList(String fileName){
         // 开始读取文件，使用java.io.File类
         File file = new File(fileName);
         // JDK7特性，自动关闭Scanner资源
@@ -32,8 +31,12 @@ public class AdjMatrix {
             if (V < 0){
                 throw new IllegalArgumentException("V must be non-negative");
             }
-            // 实例化一个大小为V*V方阵的邻接矩阵
-            adj = new int[V][V];
+            // 当创建的是对象的时候，申请链表数组内存空间
+            adj = new LinkedList[V];
+            for (int i=0;i<V;i++){
+                // Java8 类型推断
+                adj[i] = new LinkedList<Integer>();
+            }
             // 读取边的数量，该数字是文件第一行第二个
             E = scanner.nextByte();
             if (E < 0){
@@ -51,12 +54,12 @@ public class AdjMatrix {
                     throw new IllegalArgumentException("Self loop is detected!");
                 }
                 // 判断是否平行边
-                if (adj[a][b] == 1){
+                if (adj[a].contains(b)){
                     throw new IllegalArgumentException("Parallel edges are detected");
                 }
                 // 对相应的顶点进行无向图的连接
-                adj[a][b] = 1;
-                adj[b][a] = 1;
+                adj[a].add(b);
+                adj[b].add(a);
             }
         }catch (IOException e){
             e.printStackTrace();
@@ -83,19 +86,13 @@ public class AdjMatrix {
         // 判断v和w的合法性
         validateVertex(v);
         validateVertex(w);
-        return adj[v][w] == 1;
+        return adj[v].contains(w);
     }
 
     // 返回与v相邻的顶点
-    public ArrayList<Integer> adj(int v){
+    public LinkedList<Integer> adj(int v){
         validateVertex(v);
-        ArrayList<Integer> res = new ArrayList<>();
-        for (int i=0;i<V;i++){
-            if (adj[v][i] == 1){
-                res.add(i);
-            }
-        }
-        return res;
+        return adj[v];
     }
 
     // 求顶点的度
@@ -107,9 +104,10 @@ public class AdjMatrix {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(String.format("V = %d, E = %d\n", V, E));
-        for (int i=0;i<V;i++){
-            for (int j=0;j<V;j++){
-                stringBuilder.append(String.format("%d", adj[i][j]));
+        for (int v=0;v<V;v++){
+            stringBuilder.append(String.format("%d\t:\t", v));
+            for (int w: adj[v]){
+                stringBuilder.append(String.format("%d\t", w));
             }
             stringBuilder.append("\n");
         }
@@ -118,7 +116,7 @@ public class AdjMatrix {
 
     public static void main(String[] args) {
         // 项目的路径开始
-        AdjMatrix adjMatrix = new AdjMatrix("./src/Graph/g.txt");
-        System.out.println(adjMatrix);
+        AdjList adjList= new AdjList("./src/Graph/g.txt");
+        System.out.println(adjList);
     }
 }

@@ -2,27 +2,21 @@ package Graph;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.TreeSet;
 
-// 邻接矩阵
-// 处理无向无权图简单图
-// 空间复杂度：O(V^2)
-// 时间复杂度：
-// *  建图：O(E)
-// *  查看两点是否相邻：O(1)
-// *  求一个点的相邻节点：O(V)
-// **
-public class AdjMatrix {
+// 邻接表
+// 暂时只支持无向无权图
+public class Graph {
     // 表示整个图有V个顶点
     private int V;
     // 表示整个图有E条边
     private int E;
-    // 用数组形式创建邻接矩阵
-    private int[][] adj;
+    // 用红黑树形式创建邻接表
+    private TreeSet<Integer>[] adj;
 
     // 通过读取一个文件来输入数据
-    public AdjMatrix(String fileName){
+    public Graph(String fileName){
         // 开始读取文件，使用java.io.File类
         File file = new File(fileName);
         // JDK7特性，自动关闭Scanner资源
@@ -32,8 +26,12 @@ public class AdjMatrix {
             if (V < 0){
                 throw new IllegalArgumentException("V must be non-negative");
             }
-            // 实例化一个大小为V*V方阵的邻接矩阵
-            adj = new int[V][V];
+            // 当创建的是对象的时候，申请链表数组内存空间
+            adj = new TreeSet[V];
+            for (int i=0;i<V;i++){
+                // Java8 类型推断
+                adj[i] = new TreeSet<Integer>();
+            }
             // 读取边的数量，该数字是文件第一行第二个
             E = scanner.nextByte();
             if (E < 0){
@@ -51,12 +49,12 @@ public class AdjMatrix {
                     throw new IllegalArgumentException("Self loop is detected!");
                 }
                 // 判断是否平行边
-                if (adj[a][b] == 1){
+                if (adj[a].contains(b)){
                     throw new IllegalArgumentException("Parallel edges are detected");
                 }
                 // 对相应的顶点进行无向图的连接
-                adj[a][b] = 1;
-                adj[b][a] = 1;
+                adj[a].add(b);
+                adj[b].add(a);
             }
         }catch (IOException e){
             e.printStackTrace();
@@ -83,33 +81,30 @@ public class AdjMatrix {
         // 判断v和w的合法性
         validateVertex(v);
         validateVertex(w);
-        return adj[v][w] == 1;
+        return adj[v].contains(w);
     }
 
     // 返回与v相邻的顶点
-    public ArrayList<Integer> adj(int v){
+    // 用Iterable封装实现细节，用户接收后只用遍历即可
+    public Iterable<Integer> adj(int v){
         validateVertex(v);
-        ArrayList<Integer> res = new ArrayList<>();
-        for (int i=0;i<V;i++){
-            if (adj[v][i] == 1){
-                res.add(i);
-            }
-        }
-        return res;
+        return adj[v];
     }
 
     // 求顶点的度
     public int degree(int v){
-        return adj(v).size();
+        validateVertex(v);
+        return adj[v].size();
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(String.format("V = %d, E = %d\n", V, E));
-        for (int i=0;i<V;i++){
-            for (int j=0;j<V;j++){
-                stringBuilder.append(String.format("%d", adj[i][j]));
+        for (int v=0;v<V;v++){
+            stringBuilder.append(String.format("%d\t:\t", v));
+            for (int w: adj[v]){
+                stringBuilder.append(String.format("%d\t", w));
             }
             stringBuilder.append("\n");
         }
@@ -118,7 +113,7 @@ public class AdjMatrix {
 
     public static void main(String[] args) {
         // 项目的路径开始
-        AdjMatrix adjMatrix = new AdjMatrix("./src/Graph/g.txt");
-        System.out.println(adjMatrix);
+        Graph adjTreeSet = new Graph("./src/Graph/g.txt");
+        System.out.println(adjTreeSet);
     }
 }
