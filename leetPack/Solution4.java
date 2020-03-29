@@ -181,5 +181,55 @@ public class Solution4 {
         }
         return res;
     }
-    
+
+    // 面试题 17.04. 消失的数字
+    public int missingNumber(int[] nums) {
+        if (nums.length == 0){
+            return 0;
+        }
+        int sum = 0;
+        for (int e: nums){
+            sum += e;
+        }
+        return (1+nums.length)*nums.length/2 - sum;
+    }
+
+    // 1189. “气球” 的最大数量
+    public int maxNumberOfBalloons(String text) {
+        Map<Character, Integer> map = new HashMap<>();
+        int count = 10000;
+        for (int i=0;i<text.length();i++){
+            map.put(text.charAt(i), map.getOrDefault(text.charAt(i), 0) + 1);
+        }
+        count = Math.min(count, map.getOrDefault('b', 0));
+        count = Math.min(count, map.getOrDefault('a', 0));
+        count = Math.min(count, map.getOrDefault('l', 0)/2);
+        count = Math.min(count, map.getOrDefault('o', 0)/2);
+        count = Math.min(count, map.getOrDefault('n', 0));
+        return count;
+    }
+
+    // 面试题 17.10. 主要元素
+    public int majorityElement(int[] nums) {
+        if (nums.length == 0){
+            return -1;
+        }
+        if (nums.length == 1){
+            return nums[0];
+        }
+        int major = nums[0];
+        int count = 0;
+        for (int e: nums){
+            if (count == 0){
+                major = e;
+            }
+            if (e == major){
+                count++;
+            }else{
+                count--;
+            }
+        }
+        return count<-1?-1:major;
+    }
+
 }
