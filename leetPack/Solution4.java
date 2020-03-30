@@ -232,4 +232,47 @@ public class Solution4 {
         return count<-1?-1:major;
     }
 
+    // 1337. 方阵中战斗力最弱的 K 行
+    public int[] kWeakestRows(int[][] mat, int k) {
+        Queue<Integer> queue = new LinkedList<>();
+        int[] arr = new int[k];
+        for (int i=0;i<mat[0].length;i++){
+            for (int j=0;j<mat.length;j++){
+                if (mat[j][i] == 0 && !queue.contains(j)){
+                    queue.add(j);
+                }
+            }
+        }
+        while (queue.size()<k){
+            for (int i=0;i<k;i++){
+                if (!queue.contains(i)){
+                    queue.add(i);
+                }
+            }
+        }
+        for (int i=0;i<k;i++){
+            arr[i] = queue.remove();
+        }
+        return arr;
+    }
+
+    // 面试题64. 求1+2+…+n
+    public int sumNums(int n) {
+        if (n == 1){
+            return 1;
+        }
+        return sumNums(n-1) + n;
+    }
+
+    // 1379. 找出克隆二叉树中的相同节点
+    public final TreeNode getTargetCopy(final TreeNode original, final TreeNode cloned, final TreeNode target) {
+        if (original == null){
+            return null;
+        }
+        if (original == target){
+            return cloned;
+        }
+        TreeNode res = getTargetCopy(original.left, cloned.left, target);
+        return res == null ? getTargetCopy(original.right, cloned.right, target): res;
+    }
 }
