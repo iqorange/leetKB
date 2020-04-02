@@ -275,4 +275,14 @@ public class Solution4 {
         TreeNode res = getTargetCopy(original.left, cloned.left, target);
         return res == null ? getTargetCopy(original.right, cloned.right, target): res;
     }
+
+    // 面试题 16.01. 交换数字
+    public int[] swapNumbers(int[] numbers) {
+        numbers[0] ^= numbers[1];
+        numbers[1] ^= numbers[0];
+        numbers[0] ^= numbers[1];
+        return numbers;
+    }
+
+    
 }
