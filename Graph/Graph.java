@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.TreeSet;
 
-// 邻接表
+// 邻接表，基于红黑树
 // 暂时只支持无向无权图
 public class Graph {
     // 表示整个图有V个顶点
