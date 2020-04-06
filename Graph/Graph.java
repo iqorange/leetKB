@@ -62,7 +62,7 @@ public class Graph {
     }
 
     // 判断顶点序号是否合法
-    private void validateVertex(int v){
+    public void validateVertex(int v){
         if (v<0 || v>=V){
             throw new IllegalArgumentException("Vertex "+v+" is invalid");
         }
