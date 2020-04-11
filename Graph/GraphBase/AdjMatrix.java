@@ -1,27 +1,28 @@
-package Graph;
+package Graph.GraphBase;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.HashSet;
 
-// 哈希表实现的邻接表
-// 空间复杂度：O(V+E)
+// 邻接矩阵
+// 处理无向无权图简单图
+// 空间复杂度：O(V^2)
 // 时间复杂度：
 // *  建图：O(E)
 // *  查看两点是否相邻：O(1)
-// *  查找点的所有邻边：O(degree(V))
+// *  求一个点的相邻节点：O(V)
 // **
-public class AdjHashSet {
+public class AdjMatrix {
     // 表示整个图有V个顶点
     private int V;
     // 表示整个图有E条边
     private int E;
-    // 用哈希表形式创建邻接表
-    private HashSet<Integer>[] adj;
+    // 用数组形式创建邻接矩阵
+    private int[][] adj;
 
     // 通过读取一个文件来输入数据
-    public AdjHashSet(String fileName){
+    public AdjMatrix(String fileName){
         // 开始读取文件，使用java.io.File类
         File file = new File(fileName);
         // JDK7特性，自动关闭Scanner资源
@@ -31,12 +32,8 @@ public class AdjHashSet {
             if (V < 0){
                 throw new IllegalArgumentException("V must be non-negative");
             }
-            // 当创建的是对象的时候，申请链表数组内存空间
-            adj = new HashSet[V];
-            for (int i=0;i<V;i++){
-                // Java8 类型推断
-                adj[i] = new HashSet<>();
-            }
+            // 实例化一个大小为V*V方阵的邻接矩阵
+            adj = new int[V][V];
             // 读取边的数量，该数字是文件第一行第二个
             E = scanner.nextByte();
             if (E < 0){
@@ -54,12 +51,12 @@ public class AdjHashSet {
                     throw new IllegalArgumentException("Self loop is detected!");
                 }
                 // 判断是否平行边
-                if (adj[a].contains(b)){
+                if (adj[a][b] == 1){
                     throw new IllegalArgumentException("Parallel edges are detected");
                 }
                 // 对相应的顶点进行无向图的连接
-                adj[a].add(b);
-                adj[b].add(a);
+                adj[a][b] = 1;
+                adj[b][a] = 1;
             }
         }catch (IOException e){
             e.printStackTrace();
@@ -86,30 +83,33 @@ public class AdjHashSet {
         // 判断v和w的合法性
         validateVertex(v);
         validateVertex(w);
-        return adj[v].contains(w);
+        return adj[v][w] == 1;
     }
 
     // 返回与v相邻的顶点
-    // 用Iterable封装实现细节，用户接收后只用遍历即可
-    public Iterable<Integer> adj(int v){
+    public ArrayList<Integer> adj(int v){
         validateVertex(v);
-        return adj[v];
+        ArrayList<Integer> res = new ArrayList<>();
+        for (int i=0;i<V;i++){
+            if (adj[v][i] == 1){
+                res.add(i);
+            }
+        }
+        return res;
     }
 
     // 求顶点的度
     public int degree(int v){
-        validateVertex(v);
-        return adj[v].size();
+        return adj(v).size();
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(String.format("V = %d, E = %d\n", V, E));
-        for (int v=0;v<V;v++){
-            stringBuilder.append(String.format("%d\t:\t", v));
-            for (int w: adj[v]){
-                stringBuilder.append(String.format("%d\t", w));
+        for (int i=0;i<V;i++){
+            for (int j=0;j<V;j++){
+                stringBuilder.append(String.format("%d", adj[i][j]));
             }
             stringBuilder.append("\n");
         }
@@ -118,7 +118,7 @@ public class AdjHashSet {
 
     public static void main(String[] args) {
         // 项目的路径开始
-        AdjHashSet adjSet= new AdjHashSet("./src/Graph/g.txt");
-        System.out.println(adjSet);
+        AdjMatrix adjMatrix = new AdjMatrix("./src/Graph/g.txt");
+        System.out.println(adjMatrix);
     }
 }

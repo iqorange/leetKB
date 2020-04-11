@@ -1,22 +1,27 @@
-package Graph;
+package Graph.GraphBase;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
-import java.util.TreeSet;
+import java.util.HashSet;
 
-// 邻接表，基于红黑树
-// 暂时只支持无向无权图
-public class Graph {
+// 哈希表实现的邻接表
+// 空间复杂度：O(V+E)
+// 时间复杂度：
+// *  建图：O(E)
+// *  查看两点是否相邻：O(1)
+// *  查找点的所有邻边：O(degree(V))
+// **
+public class AdjHashSet {
     // 表示整个图有V个顶点
     private int V;
     // 表示整个图有E条边
     private int E;
-    // 用红黑树形式创建邻接表
-    private TreeSet<Integer>[] adj;
+    // 用哈希表形式创建邻接表
+    private HashSet<Integer>[] adj;
 
     // 通过读取一个文件来输入数据
-    public Graph(String fileName){
+    public AdjHashSet(String fileName){
         // 开始读取文件，使用java.io.File类
         File file = new File(fileName);
         // JDK7特性，自动关闭Scanner资源
@@ -27,10 +32,10 @@ public class Graph {
                 throw new IllegalArgumentException("V must be non-negative");
             }
             // 当创建的是对象的时候，申请链表数组内存空间
-            adj = new TreeSet[V];
+            adj = new HashSet[V];
             for (int i=0;i<V;i++){
                 // Java8 类型推断
-                adj[i] = new TreeSet<Integer>();
+                adj[i] = new HashSet<>();
             }
             // 读取边的数量，该数字是文件第一行第二个
             E = scanner.nextByte();
@@ -62,7 +67,7 @@ public class Graph {
     }
 
     // 判断顶点序号是否合法
-    public void validateVertex(int v){
+    private void validateVertex(int v){
         if (v<0 || v>=V){
             throw new IllegalArgumentException("Vertex "+v+" is invalid");
         }
@@ -113,7 +118,7 @@ public class Graph {
 
     public static void main(String[] args) {
         // 项目的路径开始
-        Graph adjTreeSet = new Graph("./src/Graph/g.txt");
-        System.out.println(adjTreeSet);
+        AdjHashSet adjSet= new AdjHashSet("./src/Graph/g.txt");
+        System.out.println(adjSet);
     }
 }

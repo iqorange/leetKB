@@ -1,27 +1,27 @@
-package Graph;
+package Graph.GraphBase;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.TreeSet;
 import java.util.Scanner;
 
-// 邻接表
+// 红黑树实现的邻接表
 // 空间复杂度：O(V+E)
 // 时间复杂度：
-// *  建图：O(E)，如果查重：O(E*V)
-// *  查看两点是否相邻：O(degree(v))
-// *  求一个点的相邻节点：O(degree(v))
+// *  建图：O(E*logV)
+// *  查看两点是否相邻：O(logV)
+// *  查找点的所有邻边：O(degree(V))
 // **
-public class AdjList {
+public class AdjTreeSet {
     // 表示整个图有V个顶点
     private int V;
     // 表示整个图有E条边
     private int E;
-    // 用链表形式创建邻接表
-    private LinkedList<Integer>[] adj;
+    // 用红黑树形式创建邻接表
+    private TreeSet<Integer>[] adj;
 
     // 通过读取一个文件来输入数据
-    public AdjList(String fileName){
+    public AdjTreeSet(String fileName){
         // 开始读取文件，使用java.io.File类
         File file = new File(fileName);
         // JDK7特性，自动关闭Scanner资源
@@ -32,10 +32,10 @@ public class AdjList {
                 throw new IllegalArgumentException("V must be non-negative");
             }
             // 当创建的是对象的时候，申请链表数组内存空间
-            adj = new LinkedList[V];
+            adj = new TreeSet[V];
             for (int i=0;i<V;i++){
                 // Java8 类型推断
-                adj[i] = new LinkedList<Integer>();
+                adj[i] = new TreeSet<Integer>();
             }
             // 读取边的数量，该数字是文件第一行第二个
             E = scanner.nextByte();
@@ -90,14 +90,16 @@ public class AdjList {
     }
 
     // 返回与v相邻的顶点
-    public LinkedList<Integer> adj(int v){
+    // 用Iterable封装实现细节，用户接收后只用遍历即可
+    public Iterable<Integer> adj(int v){
         validateVertex(v);
         return adj[v];
     }
 
     // 求顶点的度
     public int degree(int v){
-        return adj(v).size();
+        validateVertex(v);
+        return adj[v].size();
     }
 
     @Override
@@ -116,7 +118,7 @@ public class AdjList {
 
     public static void main(String[] args) {
         // 项目的路径开始
-        AdjList adjList= new AdjList("./src/Graph/g.txt");
-        System.out.println(adjList);
+        AdjTreeSet adjTreeSet = new AdjTreeSet("./src/Graph/g.txt");
+        System.out.println(adjTreeSet);
     }
 }

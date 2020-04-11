@@ -1,18 +1,13 @@
-package Graph;
+package Graph.GraphBase;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.TreeSet;
 import java.util.Scanner;
+import java.util.TreeSet;
 
-// 红黑树实现的邻接表
-// 空间复杂度：O(V+E)
-// 时间复杂度：
-// *  建图：O(E*logV)
-// *  查看两点是否相邻：O(logV)
-// *  查找点的所有邻边：O(degree(V))
-// **
-public class AdjTreeSet {
+// 邻接表，基于红黑树
+// 暂时只支持无向无权图
+public class Graph {
     // 表示整个图有V个顶点
     private int V;
     // 表示整个图有E条边
@@ -21,7 +16,7 @@ public class AdjTreeSet {
     private TreeSet<Integer>[] adj;
 
     // 通过读取一个文件来输入数据
-    public AdjTreeSet(String fileName){
+    public Graph(String fileName){
         // 开始读取文件，使用java.io.File类
         File file = new File(fileName);
         // JDK7特性，自动关闭Scanner资源
@@ -67,7 +62,7 @@ public class AdjTreeSet {
     }
 
     // 判断顶点序号是否合法
-    private void validateVertex(int v){
+    public void validateVertex(int v){
         if (v<0 || v>=V){
             throw new IllegalArgumentException("Vertex "+v+" is invalid");
         }
@@ -118,7 +113,7 @@ public class AdjTreeSet {
 
     public static void main(String[] args) {
         // 项目的路径开始
-        AdjTreeSet adjTreeSet = new AdjTreeSet("./src/Graph/g.txt");
+        Graph adjTreeSet = new Graph("./src/Graph/g.txt");
         System.out.println(adjTreeSet);
     }
 }

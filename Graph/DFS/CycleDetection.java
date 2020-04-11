@@ -1,6 +1,6 @@
-package Graph;
+package Graph.DFS;
 
-import java.util.ArrayList;
+import Graph.GraphBase.Graph;
 
 // 无向图的环检测
 public class CycleDetection {
