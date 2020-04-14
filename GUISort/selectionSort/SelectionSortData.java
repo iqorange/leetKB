@@ -1,4 +1,4 @@
-package GUIAlgorithm.selectionSort;
+package GUISort.selectionSort;
 
 public class SelectionSortData {
 

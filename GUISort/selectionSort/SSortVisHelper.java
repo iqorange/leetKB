@@ -1,4 +1,4 @@
-package GUIAlgorithm.selectionSort;
+package GUISort.selectionSort;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
