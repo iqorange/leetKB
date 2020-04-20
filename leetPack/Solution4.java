@@ -285,4 +285,56 @@ public class Solution4 {
         numbers[0] ^= numbers[1];
         return numbers;
     }
+
+    // 1302. 层数最深叶子节点的和
+    int sum = 0, maxDepth = 0;
+    public int deepestLeavesSum(TreeNode root) {
+        deepestLeavesSum(root, 0);
+        return sum;
+    }
+    private void deepestLeavesSum(TreeNode node, int depth){
+        if (node.left != null){
+            deepestLeavesSum(node.left, depth + 1);
+        }
+        if (node.right != null){
+            deepestLeavesSum(node.right, depth + 1);
+        }
+        if (maxDepth == depth){
+            sum += node.val;
+        }else if (maxDepth < depth){
+            maxDepth = depth;
+            sum = node.val;
+        }
+    }
+
+    // 1315. 祖父节点值为偶数的节点和
+    public int sumEvenGrandparent(TreeNode root) {
+        if (root == null){
+            return 0;
+        }
+        if (root.val % 2 == 0){
+            int sum = 0;
+            if (root.left != null){
+                if (root.left.left != null){
+                    sum += root.left.left.val;
+                }
+                if (root.left.right != null){
+                    sum += root.left.right.val;
+                }
+                sum += sumEvenGrandparent(root.left);
+            }
+            if (root.right != null){
+                if (root.right.right != null){
+                    sum += root.right.right.val;
+                }
+                if (root.right.left != null){
+                    sum += root.right.left.val;
+                }
+                sum += sumEvenGrandparent(root.right);
+            }
+            return sum;
+        }else{
+            return sumEvenGrandparent(root.left) + sumEvenGrandparent(root.right);
+        }
+    }
 }
