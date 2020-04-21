@@ -337,4 +337,31 @@ public class Solution4 {
             return sumEvenGrandparent(root.left) + sumEvenGrandparent(root.right);
         }
     }
+
+    // 面试题 04.03. 特定深度节点链表
+    Map<Integer, Queue<Integer>> listMap = new TreeMap<>();
+    public ListNode[] listOfDepth(TreeNode tree) {
+        listOfDepth(tree, 0);
+        ListNode[] listNodes = new ListNode[listMap.size()];
+        for (Map.Entry<Integer, Queue<Integer>> entry: listMap.entrySet()){
+            Queue<Integer> queue = entry.getValue();
+            ListNode nodeHead = new ListNode(queue.remove());
+            ListNode point = nodeHead;
+            while (!queue.isEmpty()){
+                point.next = new ListNode(queue.remove());
+                point = point.next;
+            }
+            listNodes[entry.getKey()] = nodeHead;
+        }
+        return listNodes;
+    }
+    private void listOfDepth(TreeNode node, int depth) {
+        if (node != null){
+            Queue<Integer> queue = listMap.getOrDefault(depth, new LinkedList<Integer>());
+            queue.add(node.val);
+            listMap.put(depth, queue);
+            listOfDepth(node.left, depth+1);
+            listOfDepth(node.right, depth+1);
+        }
+    }
 }
