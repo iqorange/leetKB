@@ -364,4 +364,104 @@ public class Solution4 {
             listOfDepth(node.right, depth+1);
         }
     }
+
+    // 面试题56 - II. 数组中数字出现的次数 II
+    public int singleNumber(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num: nums){
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        for (Map.Entry<Integer, Integer> entry: map.entrySet()){
+            if (entry.getValue() == 1){
+                return entry.getKey();
+            }
+        }
+        return -1;
+    }
+
+    // 1111. 有效括号的嵌套深度
+    public int[] maxDepthAfterSplit(String seq) {
+        int[] ans = new int [seq.length()];
+        int idx = 0;
+        for(char c: seq.toCharArray()) {
+            ans[idx++] = c == '(' ? idx & 1 : ((idx + 1) & 1);
+        }
+        return ans;
+    }
+
+    // 59. 螺旋矩阵 II
+    public int[][] generateMatrix(int n) {
+        int[][] rate = new int[n][n];
+        int c = 1, p = 0;
+        while (c <= n*n){
+            for (int i=p;i<n-p;i++){
+                rate[p][i] = c++;
+            }
+            for (int i=p+1;i<n-p;i++){
+                rate[i][n-p-1] = c++;
+            }
+            for (int i=n-p-2;i>=p;i--){
+                rate[n-p-1][i] = c++;
+            }
+            for (int i=n-p-2;i>p;i--){
+                rate[i][p] = c++;
+            }
+            p++;
+        }
+        return rate;
+    }
+
+    // 338. 比特位计数
+    public int[] countBits(int num) {
+        int[] arr = new int[num+1];
+        for (int i=0;i<=num;i++){
+            arr[i] = Integer.bitCount(i);
+        }
+        return arr;
+    }
+
+    // 701. 二叉搜索树中的插入操作
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        if (root == null){
+            return new TreeNode(val);
+        }
+        if (val>=root.val){
+            root.right = insertIntoBST(root.right, val);
+        }else{
+            root.left = insertIntoBST(root.left, val);
+        }
+        return root;
+    }
+
+    // 1305. 两棵二叉搜索树中的所有元素
+    PriorityQueue<Integer> queue = new PriorityQueue<>();
+    public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
+        getAllElements(root1);
+        getAllElements(root2);
+        List<Integer> list = new LinkedList<>();
+        while (!queue.isEmpty()){
+            list.add(queue.remove());
+        }
+        return list;
+    }
+    private void getAllElements(TreeNode node){
+        if (node != null){
+            getAllElements(node.left);
+            queue.add(node.val);
+            getAllElements(node.right);
+        }
+    }
+
+    // 814. 二叉树剪枝
+    public TreeNode pruneTree(TreeNode root) {
+        if (root == null){
+            return null;
+        }
+        root.left = pruneTree(root.left);
+        root.right = pruneTree(root.right);
+        if (root.left == null && root.right == null && root.val == 0){
+            return null;
+        }
+        return root;
+    }
 }
