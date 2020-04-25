@@ -1,4 +1,4 @@
-package Graph.DFS;
+package Graph.BridgeAndCutPoints;
 
 public class Edge {
     // 边的两个端点

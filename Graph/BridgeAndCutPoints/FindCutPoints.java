@@ -1,11 +1,12 @@
-package Graph.DFS;
+package Graph.BridgeAndCutPoints;
 
 import Graph.GraphBase.Graph;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
-// 桥
-public class FindBridges {
+// 寻找割点（DFS）
+public class FindCutPoints {
     private Graph G;
     private boolean[] visited;
 
@@ -15,13 +16,13 @@ public class FindBridges {
     private int low[];
     // 记录遍历的顶点数
     private int cnt;
-    // 存储边
-    private ArrayList<Edge> res;
+    // 存储割点
+    private Set<Integer> res;
 
-    public FindBridges(Graph G){
+    public FindCutPoints(Graph G){
         this.G = G;
         visited = new boolean[G.V()];
-        res = new ArrayList<>();
+        res = new HashSet<>();
         ord = new int[G.V()];
         low = new int[G.V()];
         cnt = 0;
@@ -38,12 +39,18 @@ public class FindBridges {
         ord[v] = cnt;
         low[v] = ord[v];
         cnt++;
+        int child = 0;
         for (int w: G.adj(v)){
             if (!visited[w]){
                 dfs(w, v);
                 low[v] = Math.min(low[v], low[w]);
-                if (low[w] > ord[v]){
-                    res.add(new Edge(v, w));
+                // 对跟节点进行特殊判断
+                if (v != parent &&low[w] >= ord[v]){
+                    res.add(v);
+                }
+                child++;
+                if (v == parent && child > 1){
+                    res.add(v);
                 }
             }else if (w != parent){
                 low[v] = Math.min(low[v], low[w]);
@@ -51,13 +58,13 @@ public class FindBridges {
         }
     }
 
-    public ArrayList<Edge> result(){
+    public Iterable<Integer> result(){
         return res;
     }
 
     public static void main(String[] args) {
         Graph g = new Graph("./src/Graph/g6.txt");
-        FindBridges fb = new FindBridges(g);
-        System.out.println(fb.result());
+        FindCutPoints fc = new FindCutPoints(g);
+        System.out.println(fc.result());
     }
 }
