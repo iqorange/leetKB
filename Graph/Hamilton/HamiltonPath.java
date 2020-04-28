@@ -9,7 +9,6 @@ public class HamiltonPath {
 
     private Graph G;
     private int s;
-    private boolean[] visited;
     private int[] pre;
     private int end;
 
@@ -17,15 +16,15 @@ public class HamiltonPath {
 
         this.G = G;
         this.s = s;
-        visited = new boolean[G.V()];
+        int visited = 0;
         pre = new int[G.V()];
         end = -1;
-        dfs(s, s, G.V());
+        dfs(visited, s, s, G.V());
     }
 
-    private boolean dfs(int v, int parent, int left){
+    private boolean dfs(int visited, int v, int parent, int left){
 
-        visited[v] = true;
+        visited += (1<<v);
         pre[v] = parent;
         left --;
         if(left == 0){
@@ -34,11 +33,10 @@ public class HamiltonPath {
         }
 
         for(int w: G.adj(v)) {
-            if (!visited[w]) {
-                if (dfs(w, v, left)) return true;
+            if ((visited & (1<<w)) == 0) {
+                if (dfs(visited, w, v, left)) return true;
             }
         }
-        visited[v] = false;
         return false;
     }
 
