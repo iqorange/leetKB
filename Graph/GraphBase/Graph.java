@@ -7,7 +7,7 @@ import java.util.TreeSet;
 
 // 邻接表，基于红黑树
 // 暂时只支持无向无权图
-public class Graph {
+public class Graph implements Cloneable{
     // 表示整个图有V个顶点
     private int V;
     // 表示整个图有E条边
@@ -95,6 +95,35 @@ public class Graph {
     public int degree(int v){
         validateVertex(v);
         return adj[v].size();
+    }
+
+    // 删除边
+    public void removeEdge(int v,int w){
+        // 验证顶点合法性
+        validateVertex(v);
+        validateVertex(w);
+        // 无向图删除边
+        adj[v].remove(w);
+        adj[w].remove(v);
+    }
+
+    // 深拷贝
+    @Override
+    public Object clone(){
+        try {
+            Graph cloned = (Graph) super.clone();
+            cloned.adj = new TreeSet[V];
+            for (int v = 0;v<V;v++){
+                cloned.adj[v] = new TreeSet<>();
+                for (int w: this.adj[v]){
+                    cloned.adj[v].add(w);
+                }
+            }
+            return cloned;
+        }catch (CloneNotSupportedException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
