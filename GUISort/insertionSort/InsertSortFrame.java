@@ -19,9 +19,7 @@ public class InsertSortFrame extends JFrame{
         setContentPane(canvas);
 
         setResizable(false);
-        pack();    // 在setResizable(false)后进行pack()，防止在Windows下系统修改frame的尺寸
-                   // 具体参见：http://coding.imooc.com/learn/questiondetail/26420.html
-
+        pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
