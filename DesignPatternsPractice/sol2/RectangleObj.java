@@ -1,4 +1,4 @@
-package sol2;
+package DesignPatternsPractice.sol2;
 
 public class RectangleObj extends ShapeObj{
     public RectangleObj(Type shape) {

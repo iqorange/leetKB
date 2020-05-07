@@ -1,5 +1,5 @@
 //designpatterns.simplefactory.Client.java
-package simplefactory;
+package DesignPatternsPractice.simplefactory;
 
 public class Client {
 	public static void main(String args[]) {

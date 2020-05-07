@@ -1,4 +1,4 @@
-package sol3;
+package DesignPatternsPractice.sol3;
 
 public class Connection {
     // TODO 连接对象

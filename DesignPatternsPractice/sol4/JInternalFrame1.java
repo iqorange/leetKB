@@ -1,4 +1,4 @@
-package sol4;
+package DesignPatternsPractice.sol4;
 
 import javax.swing.*;
 

@@ -1,4 +1,4 @@
-package sol1;
+package DesignPatternsPractice.sol1;
 
 public abstract class Person {
     private String name;

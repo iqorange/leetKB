@@ -1,4 +1,4 @@
-package sol3;
+package DesignPatternsPractice.sol3;
 
 public class HaireFacory implements Television {
     public TV createTV() {

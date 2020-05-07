@@ -1,4 +1,4 @@
-package sol1;
+package DesignPatternsPractice.sol1;
 
 public class Teacher extends Person {
     private String name;

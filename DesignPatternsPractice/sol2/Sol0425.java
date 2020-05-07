@@ -1,4 +1,4 @@
-package sol2;
+package DesignPatternsPractice.sol2;
 
 import org.junit.After;
 import org.junit.Before;

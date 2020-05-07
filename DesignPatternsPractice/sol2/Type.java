@@ -1,4 +1,4 @@
-package sol2;
+package DesignPatternsPractice.sol2;
 
 public enum Type {
     // 三角形

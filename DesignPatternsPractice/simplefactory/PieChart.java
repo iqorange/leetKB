@@ -1,5 +1,5 @@
 //designpatterns.simplefactory.PieChart.java
-package simplefactory;
+package DesignPatternsPractice.simplefactory;
 
 //饼状图类，充当具体产品类
 public class PieChart implements Chart {

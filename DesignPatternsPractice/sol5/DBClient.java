@@ -1,4 +1,4 @@
-package sol5;
+package DesignPatternsPractice.sol5;
 
 public class DBClient {
     private static DBClient dbClient = new DBClient();

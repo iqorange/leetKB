@@ -1,4 +1,4 @@
-package sol1;
+package DesignPatternsPractice.sol1;
 
 public class Student extends Person {
     // 姓名、性别、年龄、语文、数学、英语

@@ -1,5 +1,5 @@
 //designpatterns.simplefactory.LineChart.java
-package simplefactory;
+package DesignPatternsPractice.simplefactory;
 
 //折线图类，充当具体产品类
 public class LineChart implements Chart {
