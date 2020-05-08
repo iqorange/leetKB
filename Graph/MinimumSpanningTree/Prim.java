@@ -3,6 +3,8 @@ package Graph.MinimumSpanningTree;
 import Graph.GraphBase.WeightedGraph;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 // Prim求解最小生成树
 public class Prim {
@@ -22,23 +24,28 @@ public class Prim {
         boolean[] visited = new boolean[G.V()];
         // 切分
         visited[0] = true;
-        // 循环v-1次
-        for (int i=1;i<G.V();i++){
-            // 记录最小权值的横切遍
-            WeightedEdge minEdge = new WeightedEdge(-1, -1, Integer.MAX_VALUE);
-            // 找横切边的最短边
-            for (int v=0;v<G.V();v++){
-                if (visited[v]){
-                    for (int w: G.adj(v)){
-                        if (!visited[w] && G.getWeight(v, w) < minEdge.getWeight()){
-                            minEdge = new WeightedEdge(v, w, G.getWeight(v, w));
-                        }
-                    }
+        // 优先队列获得权值最小的边
+        Queue pq = new PriorityQueue<WeightedEdge>();
+        // 初始情况，取出0的所有横切边
+        for(int w: G.adj(0)) {
+            pq.add(new WeightedEdge(0, w, G.getWeight(0, w)));
+        }
+        while(!pq.isEmpty()){
+
+            WeightedEdge minEdge = (WeightedEdge) pq.remove();
+            if(visited[minEdge.getV()] && visited[minEdge.getW()]) {
+                continue;
+            }
+
+            mst.add(minEdge);
+
+            int newv = visited[minEdge.getV()] ? minEdge.getW() : minEdge.getV();
+            visited[newv] = true;
+            for(int w: G.adj(newv)) {
+                if (!visited[w]) {
+                    pq.add(new WeightedEdge(newv, w, G.getWeight(newv, w)));
                 }
             }
-            mst.add(minEdge);
-            visited[minEdge.getV()] = true;
-            visited[minEdge.getW()] = true;
         }
     }
 
