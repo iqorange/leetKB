@@ -1,7 +1,6 @@
 package leetPack.Arrays;
 
-import java.util.Arrays;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class ArraySolution {
     // 283. 移动零
@@ -143,5 +142,82 @@ public class ArraySolution {
         }
         Arrays.sort(nums);
         return nums[nums.length-k];
+    }
+
+    // 167. 两数之和 II - 输入有序数组
+    public int[] twoSum(int[] numbers, int target) {
+        if (numbers.length<2){
+            return new int[2];
+        }
+        int left = 0;
+        int right = numbers.length-1;
+        while (left<right){
+            if (numbers[left] + numbers[right] == target){
+                int[] res = {left+1, right+1};
+                return res;
+            }
+            if (numbers[left] + numbers[right] < target){
+                left++;
+            }else{
+                right--;
+            }
+        }
+        throw new IllegalArgumentException("No Solution~");
+    }
+
+    // 125. 验证回文串
+    public boolean isPalindrome(String s) {
+        if (s == null || s.equals("")){
+            return true;
+        }
+        s = s.toLowerCase();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (char e: s.toCharArray()){
+            if ((e>='a' && e<='z') || (e>='0' && e<='9')){
+                stringBuilder.append(e);
+            }
+        }
+        return stringBuilder.toString().equals(stringBuilder.reverse().toString());
+    }
+
+    // 345. 反转字符串中的元音字母
+    public String reverseVowels(String s) {
+        Set<Character> set = new HashSet<>(Arrays.asList('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'));
+        int leftCar = 0;
+        int rightCar = s.length()-1;
+        char[] str = s.toCharArray();
+        while (leftCar<rightCar){
+            if (!set.contains(str[leftCar])){
+                leftCar++;
+                continue;
+            }
+            if (!set.contains(str[rightCar])){
+                rightCar--;
+                continue;
+            }
+            char t = str[leftCar];
+            str[leftCar] = str[rightCar];
+            str[rightCar] = t;
+            leftCar++;
+            rightCar--;
+        }
+        return String.valueOf(str);
+    }
+
+    // 11. 盛最多水的容器
+    public int maxArea(int[] height) {
+        int leftWall = 0;
+        int rightWall = height.length-1;
+        int res = 0;
+        while (leftWall<rightWall){
+            int minWall = Math.min(height[leftWall], height[rightWall]);
+            res = Math.max(res, minWall*(rightWall-leftWall));
+            if (height[leftWall] < height[rightWall]){
+                leftWall++;
+            }else{
+                rightWall--;
+            }
+        }
+        return res;
     }
 }
