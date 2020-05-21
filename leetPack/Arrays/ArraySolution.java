@@ -220,4 +220,108 @@ public class ArraySolution {
         }
         return res;
     }
+
+    // 209. 长度最小的子数组
+    public int minSubArrayLen(int s, int[] nums) {
+        int l = 0, r = -1;
+        int sum = 0;
+        int res = nums.length+1;
+        // 滑动窗口
+        while (l<nums.length){
+            if ( r+1 < nums.length && sum<s){
+                sum += nums[++r];
+            }else{
+                sum -= nums[l++];
+            }
+            if (sum>=s){
+                res = Math.min(res, r-l+1);
+            }
+        }
+        if (res == nums.length+1){
+            return 0;
+        }
+        return res;
+    }
+
+    // 3. 无重复字符的最长子串
+    public int lengthOfLongestSubstring(String s) {
+        Map<Character, Integer> freq = new HashMap<>();
+        int l = 0;
+        int r = -1;
+        int result = 0;
+
+        while (l<s.length()){
+            if (r+1<s.length() && freq.getOrDefault(s.charAt(r+1), 0) == 0){
+                r++;
+                freq.put(s.charAt(r), freq.getOrDefault(s.charAt(r), 0) + 1);
+            }else{
+                freq.put(s.charAt(l), freq.getOrDefault(s.charAt(l), 0) - 1);
+                l++;
+            }
+            result = Math.max(result, r-l+1);
+        }
+        return result;
+    }
+
+    // 438. 找到字符串中所有字母异位词
+    public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> list = new ArrayList<>();
+        if (s == null || s.equals("") || s.length() < p.length()) return list;
+        int[] hash = new int[256];
+        for (int j = 0; j < p.length(); j++) {
+            hash[p.charAt(j)]++;
+        }
+        int count = p.length();
+        int left = 0, right = 0;
+        while (right < s.length()) {
+            if (hash[s.charAt(right++)]-- >= 1) count--;
+            if (count == 0) list.add(left);
+            if ((right - left) == p.length() && hash[s.charAt(left++)]++ >= 0) count++;
+        }
+        return list;
+    }
+
+    // 76. 最小覆盖子串 **
+    public static String minWindow(String s, String t) {
+        if (s == null || s == "" || t == null || t == "" || s.length() < t.length()) {
+            return "";
+        }
+        //用来统计t中每个字符出现次数
+        int[] needs = new int[128];
+        //用来统计滑动窗口中每个字符出现次数
+        int[] window = new int[128];
+        for (int i = 0; i < t.length(); i++) {
+            needs[t.charAt(i)]++;
+        }
+        int left = 0;
+        int right = 0;
+        String res = "";
+        //目前有多少个字符
+        int count = 0;
+        //用来记录最短需要多少个字符。
+        int minLength = s.length() + 1;
+        while (right < s.length()) {
+            char ch = s.charAt(right);
+            window[ch]++;
+            if (needs[ch] > 0 && needs[ch] >= window[ch]) {
+                count++;
+            }
+            //移动到不满足条件为止
+            while (count == t.length()) {
+                ch = s.charAt(left);
+                if (needs[ch] > 0 && needs[ch] >= window[ch]) {
+                    count--;
+                }
+                if (right - left + 1 < minLength) {
+                    minLength = right - left + 1;
+                    res = s.substring(left, right + 1);
+
+                }
+                window[ch]--;
+                left++;
+            }
+            right++;
+        }
+        return res;
+    }
 }
