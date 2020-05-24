@@ -331,4 +331,8 @@ public class Token {
     public boolean isOperator() {
         return this.type == TokenType.OPERATOR;
     }
+
+    public String getValue() {
+        return value;
+    }
 }
