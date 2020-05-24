@@ -7,6 +7,10 @@ import KBScript.parser.ast.Scala;
 import KBScript.parser.util.ParseException;
 import KBScript.parser.util.PeekTokenIterator;
 
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
 public class SimpleParser {
     // Expri -> digit + Expr | digit
     public static ASTNode parse(PeekTokenIterator iterator) throws ParseException {
