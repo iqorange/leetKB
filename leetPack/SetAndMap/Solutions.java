@@ -84,4 +84,90 @@ public class Solutions {
         }
         return res.toString();
     }
+
+    // 1. 两数之和
+    public int[] twoSum(int[] nums, int target) {
+        int[] towTag = new int[2];
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i=0;i<nums.length;i++){
+            if (map.containsKey(target - nums[i])){
+                towTag[0] = map.get(target - nums[i]);
+                towTag[1] = i;
+                return towTag;
+            }
+            map.put(nums[i], i);
+        }
+        return towTag;
+    }
+
+    // 15. 三数之和
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> lists = new LinkedList<>();
+        PriorityQueue<Integer> queue  = new PriorityQueue<>();
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int e: nums){
+            queue.add(e);
+        }
+        while (queue.size() > 2){
+            int left = queue.remove();
+            map.put(left, map.getOrDefault(left, 0) + 1);
+            if (map.get(left) > 3) continue;
+            LinkedList<Integer> linkedList = new LinkedList<>(queue);
+            // 优先队列是边输出边整理的，所以直接导过来的时候要排序一下
+            Collections.sort(linkedList);
+            int mid = linkedList.removeFirst();
+            int right = linkedList.removeLast();
+            if (linkedList.isEmpty() && left + mid + right == 0){
+                addToList(lists, left, mid, right);
+            }
+            while (!linkedList.isEmpty()) {
+                if (left + mid + right == 0){
+                    addToList(lists, left, mid, right);
+                    mid = linkedList.removeFirst();
+                    if (linkedList.size() > 0) right = linkedList.removeLast();
+                }else if (left + mid + right > 0){
+                    right = linkedList.removeLast();
+                }else{
+                    mid = linkedList.removeFirst();
+                }
+                if (linkedList.isEmpty() && left + mid + right == 0) {
+                    addToList(lists, left, mid, right);
+                }
+            }
+        }
+        return new LinkedList<>(new HashSet<List<Integer>>(lists));
+    }
+    private void addToList(List<List<Integer>> lists, int left, int mid, int right){
+        LinkedList<Integer> list = new LinkedList<>();
+        list.add(left); list.add(mid); list.add(right);
+        Collections.sort(list);
+        lists.add(list);
+    }
+
+    // 16. 最接近的三数之和
+    public int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int sum = nums[0] + nums[1] + nums[2];
+        if (nums.length ==3){
+            return sum;
+        }
+        for (int i=0;i<nums.length-2;i++){
+            int left = i+1;
+            int right = nums.length-1;
+            while (left<right){
+                int newSum = nums[i] + nums[left] + nums[right];
+                if (Math.abs(newSum - target) < Math.abs(sum - target)){
+                    sum = newSum;
+                }
+                if (newSum - target > 0){
+                    right--;
+                }else if (newSum -target < 0){
+                    left++;
+                }else{
+                    return newSum;
+                }
+            }
+        }
+        return sum;
+    }
 }
