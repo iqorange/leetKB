@@ -170,4 +170,62 @@ public class Solutions {
         }
         return sum;
     }
+
+    // 454. 四数相加 II
+    public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
+        if (A == null || B == null || C == null || D == null){
+            throw new IllegalArgumentException("Illegal argument");
+        }
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int item : C) {
+            for (int value : D) {
+                int sum = item + value;
+                map.put(sum, map.getOrDefault(sum, 0) + 1);
+            }
+        }
+        int result = 0;
+        for (int item: A){
+            for (int value: B){
+                result += map.getOrDefault(-item - value, 0);
+            }
+        }
+        return result;
+    }
+
+    // 49. 字母异位词分组
+    public List<List<String>> groupAnagrams(String[] strs) {
+        List<List<String>> lists = new LinkedList<>();
+        Map<String, List<String>> map = new HashMap<>();
+        for (String str: strs){
+            char[] s = str.toCharArray();
+            Arrays.sort(s);
+            String ss = String.valueOf(s);
+            List<String> list = map.getOrDefault(ss, new LinkedList<>());
+            list.add(str);
+            map.put(ss, list);
+        }
+        for (Map.Entry<String, List<String>> entry: map.entrySet()){
+            lists.add(entry.getValue());
+        }
+        return lists;
+    }
+
+    // 447. 回旋镖的数量
+    public int numberOfBoomerangs(int[][] points) {
+        int result = 0;
+        for (int[] pointA : points) {
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int[] pointB : points) {
+                int distance = distance(pointA, pointB);
+                map.put(distance, map.getOrDefault(distance, 0) + 1);
+            }
+            for (Integer distance: map.keySet()){
+                result += map.get(distance) * (map.get(distance) - 1);
+            }
+        }
+        return result;
+    }
+    private int distance(int[] pa, int[] pb){
+        return (pa[0] - pb[0]) * (pa[0] - pb[0]) + (pa[1] - pb[1]) * (pa[1] - pb[1]);
+    }
 }
