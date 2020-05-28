@@ -1,25 +1,30 @@
 package Graph.GUIMaze.MazeGeneration.RandomQueue;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.LinkedList;
 
+// 尝试改写成Deque的形式
 public class RandomQueue<Element> {
-    private LinkedList<Element> queue;
+//    private LinkedList<Element> queue;
+    private Deque<Element> deque;
 
     public RandomQueue(){
-        queue = new LinkedList<>();
+//        queue = new LinkedList<>();
+        deque = new ArrayDeque<>();
     }
 
     public void add(Element e){
         if (Math.random() < 0.6){
-            queue.addFirst(e);
+            deque.addFirst(e);
         }else{
-            queue.addLast(e);
+            deque.addLast(e);
         }
     }
 
     public Element remove(){
-        if (queue.size() == 0){
+        if (deque.size() == 0){
             throw new IllegalArgumentException("There is no element to remove in RandomQueue~");
         }
 //        int randIndex = (int)(Math.random() * queue.size());
@@ -29,17 +34,17 @@ public class RandomQueue<Element> {
 //        queue.remove(queue.size()-1);
 //        return randomElement;
         if (Math.random() > 0.6){
-            return queue.removeFirst();
+            return deque.removeFirst();
         }else{
-            return queue.removeLast();
+            return deque.removeLast();
         }
     }
 
     public int size(){
-        return queue.size();
+        return deque.size();
     }
 
     public boolean isEmpty(){
-        return queue.size() == 0;
+        return deque.size() == 0;
     }
 }
