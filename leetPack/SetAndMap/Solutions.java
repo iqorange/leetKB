@@ -228,4 +228,55 @@ public class Solutions {
     private int distance(int[] pa, int[] pb){
         return (pa[0] - pb[0]) * (pa[0] - pb[0]) + (pa[1] - pb[1]) * (pa[1] - pb[1]);
     }
+
+    // 219. 存在重复元素 II
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        if (nums == null || nums.length < 2 || k < 1){
+            return false;
+        }
+        Set<Integer> set = new HashSet<>();
+        for (int i=0;i<nums.length;i++){
+            if (set.contains(nums[i])){
+                return true;
+            }
+            set.add(nums[i]);
+            if (set.size() == k + 1){
+                set.remove(nums[i-k]);
+            }
+        }
+        return false;
+    }
+
+    // 217. 存在重复元素
+    public boolean containsDuplicate(int[] nums) {
+        if (nums == null || nums.length < 2){
+            return false;
+        }
+        Set<Integer> set = new HashSet<>();
+        for (int e: nums){
+            if (set.contains(e)){
+                return true;
+            }
+            set.add(e);
+        }
+        return false;
+    }
+
+    // 220. 存在重复元素 III
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        if (nums == null || nums.length < 2 || k < 1){
+            return false;
+        }
+        TreeSet<Long> set = new TreeSet<>();
+        for (int i=0;i<nums.length;i++){
+            if (set.ceiling((long)nums[i] - (long)t) != null && set.ceiling((long)nums[i] - (long)t) <= (long)nums[i] + (long)t){
+                return true;
+            }
+            set.add((long)nums[i]);
+            if (set.size() == k + 1){
+                set.remove((long)nums[i-k]);
+            }
+        }
+        return false;
+    }
 }
