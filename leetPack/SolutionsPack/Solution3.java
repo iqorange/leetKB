@@ -1,4 +1,4 @@
-package leetPack.Solutions;
+package leetPack.SolutionsPack;
 import java.util.*;
 public class Solution3 {
     // 961. 重复 N 次的元素

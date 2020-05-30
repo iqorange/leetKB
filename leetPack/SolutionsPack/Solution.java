@@ -1,4 +1,4 @@
-package leetPack.Solutions;
+package leetPack.SolutionsPack;
 
 import LinkedList.ListNode;
 import leetPack.SolClass.NestedInteger;

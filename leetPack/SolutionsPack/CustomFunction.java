@@ -1,4 +1,4 @@
-package leetPack.Solutions;
+package leetPack.SolutionsPack;
 
 interface CustomFunction {
     // Returns f(x, y) for any given positive integers x and y.

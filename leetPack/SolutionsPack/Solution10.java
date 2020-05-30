@@ -1,8 +1,4 @@
-package leetPack.Solutions;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+package leetPack.SolutionsPack;
 
 public class Solution10 {
     // 1008. 先序遍历构造二叉树

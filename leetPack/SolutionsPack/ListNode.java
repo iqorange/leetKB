@@ -1,4 +1,4 @@
-package leetPack.Solutions;
+package leetPack.SolutionsPack;
 
 public class ListNode {
     int val;
