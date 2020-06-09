@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 // BellmanFord处理负权边问题
+// 时间复杂度：O(VVE)
 public class BellmanFord {
     private WeightedGraph G;
     private int s;

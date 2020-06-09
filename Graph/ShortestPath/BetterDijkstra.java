@@ -5,7 +5,7 @@ import Graph.GraphBase.WeightedGraph;
 import java.util.*;
 
 // Dijkstra算法
-// 时间复杂度：O(ElogE)
+// 时间复杂度：O(VElogE)
 // 适用于处理没负权边的最短路径问题
 public class BetterDijkstra {
     // 无向带权图
