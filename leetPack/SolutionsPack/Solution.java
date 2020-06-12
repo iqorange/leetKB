@@ -1,6 +1,6 @@
 package leetPack.SolutionsPack;
 
-import LinkedList.ListNode;
+import BasicDataStructure.LinkedList.ListNode;
 import leetPack.SolClass.NestedInteger;
 
 import java.util.*;

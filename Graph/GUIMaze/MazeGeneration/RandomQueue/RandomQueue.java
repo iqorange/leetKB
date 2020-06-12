@@ -7,11 +7,11 @@ import java.util.LinkedList;
 
 // 尝试改写成Deque的形式
 public class RandomQueue<Element> {
-//    private LinkedList<Element> queue;
+//    private BasicDataStructure.LinkedList<Element> queue;
     private Deque<Element> deque;
 
     public RandomQueue(){
-//        queue = new LinkedList<>();
+//        queue = new BasicDataStructure.LinkedList<>();
         deque = new ArrayDeque<>();
     }
 

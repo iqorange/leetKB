@@ -1,6 +1,6 @@
 package leetPack.SolClass;
 
-import SegmentTree.SegmentTree;
+import AdvancedDataStructure.SegmentTree.SegmentTree;
 
 // 307. 区域和检索 - 数组可修改
 // 线段树解法

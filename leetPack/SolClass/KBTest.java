@@ -8,7 +8,7 @@ import java.util.Map;
 public class KBTest {
     public static void main(String[] args) {
 //        Solution solution = new Solution();
-//        Map<String, Integer> map = new HashMap<>();
+//        BasicDataStructure.Map<String, Integer> map = new HashMap<>();
 //        map.put("123", 123);
 //        System.out.println(map.get("123"));
 //        System.out.println(map.get("456"));
@@ -17,7 +17,7 @@ public class KBTest {
 //        solution.hammingDistance(1, 4);
 //        solution.isArmstrong(153);
 //        System.out.println(1/10);
-//        List list = new LinkedList();
+//        List list = new BasicDataStructure.LinkedList();
 //        list.get(1);
 //        System.out.println(Integer.toBinaryString(10000).length());
         String s = "123456";
