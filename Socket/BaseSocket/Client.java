@@ -1,4 +1,4 @@
-package Socket.BaseSocket1;
+package Socket.BaseSocket;
 
 import java.io.*;
 import java.net.Inet4Address;
