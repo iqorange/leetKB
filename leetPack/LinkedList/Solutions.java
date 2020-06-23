@@ -290,4 +290,112 @@ public class Solutions {
         point.next = null;
         return sortedHead.next;
     }
+
+    // 237. 删除链表中的节点
+    public void deleteNode(ListNode node) {
+        if (node == null) return;
+        if (node.next == null){
+            node = null;
+            return;
+        }
+        node.val = node.next.val;
+        ListNode delNode = node.next;
+        node.next = delNode.next;
+        delNode = null;
+    }
+
+    // 19. 删除链表的倒数第N个节点
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        assert n > 0;
+        ListNode dummyHead = new ListNode(-1);
+        dummyHead.next = head;
+        ListNode left = dummyHead;
+        ListNode right = dummyHead;
+        for (int i=0;i<=n;i++){
+            assert right != null;
+            right = right.next;
+        }
+        while (right != null){
+            left = left.next;
+            right = right.next;
+        }
+        ListNode deleteNode = left.next;
+        left.next = deleteNode.next;
+        deleteNode = null;
+        return dummyHead.next;
+    }
+
+    // 61. 旋转链表
+    public ListNode rotateRight(ListNode head, int k) {
+        if (head == null || head.next == null || k == 0){
+            return head;
+        }
+        ListNode dummyHead = new ListNode(-1);
+        dummyHead.next = head;
+        ListNode bicycle = dummyHead;
+        ListNode car = dummyHead;
+        ListNode recNode = head;
+        int length = 0;
+        while (recNode != null){
+            recNode = recNode.next;
+            length++;
+        }
+        if (k%length == 0) return head;
+        for (int i=0;i<k%length;i++){
+            if (car == null) return head;
+            car = car.next;
+        }
+        while (car.next != null){
+            bicycle = bicycle.next;
+            car = car.next;
+        }
+        ListNode rotateNode = bicycle.next;
+        bicycle.next = null;
+        car.next = head;
+        return rotateNode;
+    }
+
+    // 143. 重排链表
+    public void reorderList(ListNode head) {
+        if (head == null || head.next == null) return;
+        ListNode point = head.next;
+        ListNode assemblyLine = head;
+        Deque<ListNode> deque = new ArrayDeque<>();
+        while (point != null){
+            deque.addFirst(point);
+            point = point.next;
+        }
+        boolean sw = true;
+        while (!deque.isEmpty()){
+            if (sw){
+                assemblyLine.next = deque.removeFirst();
+            }else{
+                assemblyLine.next = deque.removeLast();
+            }
+            assemblyLine = assemblyLine.next;
+            sw = !sw;
+        }
+        assemblyLine.next = null;
+    }
+
+    // 234. 回文链表
+    public boolean isPalindrome(ListNode head) {
+        if (head == null || head.next == null){
+            return true;
+        }
+        Stack<Integer> stack = new Stack<>();
+        while (head != null){
+            if (!stack.isEmpty() && stack.peek() == head.val){
+                stack.pop();
+                if (stack.isEmpty() && head.next != null) return false;
+            }else if (!stack.isEmpty() && head.next != null && stack.peek() == head.next.val){
+                stack.pop();
+                head = head.next;
+            }else{
+                stack.push(head.val);
+            }
+            head = head.next;
+        }
+        return stack.isEmpty();
+    }
 }
