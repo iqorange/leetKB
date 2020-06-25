@@ -1,7 +1,7 @@
 package leetPack.Stack;
 
 import java.nio.file.Paths;
-import java.util.Stack;
+import java.util.*;
 
 public class Solution {
     // 20. 有效的括号
@@ -49,5 +49,99 @@ public class Solution {
     // 71. 简化路径
     public String simplifyPath(String path) {
         return Paths.get(path).normalize().toString();
+    }
+
+    // 144. 二叉树的前序遍历
+    public List<Integer> preorderTraversal(TreeNode root) {
+        if (root == null) return new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        List<Integer> list = new ArrayList<>();
+        stack.add(root);
+        while (!stack.isEmpty()){
+            TreeNode node = stack.pop();
+            if (node.right != null){
+                stack.push(node.right);
+            }
+            if (node.left != null){
+                stack.push(node.left);
+            }
+            list.add(node.val);
+        }
+        return list;
+    }
+
+    // 94. 二叉树的中序遍历
+    public List<Integer> inorderTraversal(TreeNode root) {
+        if (root == null) return new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        List<Integer> list = new ArrayList<>();
+        stack.add(root);
+        while (!stack.isEmpty()){
+            TreeNode node = stack.pop();
+            if (node.left == null && node.right == null){
+                list.add(node.val);
+                continue;
+            }
+            if (node.right != null){
+                stack.push(node.right);
+            }
+            stack.push(new TreeNode(node.val));
+            if (node.left != null){
+                stack.push(node.left);
+            }
+        }
+        return list;
+    }
+
+    // 145. 二叉树的后序遍历
+    public List<Integer> postorderTraversal(TreeNode root) {
+        if (root == null) return new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        List<Integer> list = new ArrayList<>();
+        stack.add(root);
+        while (!stack.isEmpty()){
+            TreeNode node = stack.pop();
+            if (node.left == null && node.right == null){
+                list.add(node.val);
+                continue;
+            }
+            stack.push(new TreeNode(node.val));
+            if (node.right != null) {
+                stack.push(node.right);
+            }
+            if (node.left != null){
+                stack.push(node.left);
+            }
+        }
+        return list;
+    }
+
+    // 341. 扁平化嵌套列表迭代器
+    public class NestedIterator implements Iterator<Integer> {
+        Deque<Integer> deque;
+        public NestedIterator(List<NestedInteger> nestedList) {
+            deque = new ArrayDeque<>();
+            flat(nestedList);
+        }
+
+        private void flat(List<NestedInteger> nestedList){
+            for (NestedInteger nestedInteger: nestedList){
+                if (nestedInteger.isInteger()){
+                    deque.addFirst(nestedInteger.getInteger());
+                }else{
+                    flat(nestedInteger.getList());
+                }
+            }
+        }
+
+        @Override
+        public Integer next() {
+            return deque.removeLast();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !deque.isEmpty();
+        }
     }
 }
