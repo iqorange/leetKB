@@ -120,4 +120,26 @@ public class Solution {
         }
         throw new IllegalArgumentException("No Solution.");
     }
+
+    // 23. 合并K个排序链表
+    public ListNode mergeKLists(ListNode[] lists) {
+        if (lists.length == 0) return null;
+        PriorityQueue<ListNode> queue = new PriorityQueue<>((o1, o2) -> o1.val-o2.val);
+        for (ListNode node: lists){
+            while (node != null){
+                queue.add(node);
+                node = node.next;
+            }
+        }
+        if (queue.isEmpty()) return null;
+        ListNode dummyHead = new ListNode(-1);
+        dummyHead.next = queue.remove();
+        ListNode car = dummyHead.next;
+        while (!queue.isEmpty()){
+            car.next = queue.remove();
+            car = car.next;
+        }
+        car.next = null;
+        return dummyHead.next;
+    }
 }
