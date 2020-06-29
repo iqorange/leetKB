@@ -3,6 +3,25 @@ package leetPack.Queue;
 import java.util.*;
 
 public class Solution {
+    // 构建一个键值对数据结构
+    private class Pair<K, V>{
+        private final K key;
+        private final V value;
+
+        public Pair(K key, V value){
+            this.key = key;
+            this.value = value;
+        }
+
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
+        }
+    }
+
     // 102. 二叉树的层序遍历
     public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> res = new ArrayList<>();
@@ -23,23 +42,6 @@ public class Solution {
             if (node.right != null) queue.add(new Pair<>(node.right, level + 1));
         }
         return res;
-    }
-    private class Pair<K, V>{
-        private final K key;
-        private final V value;
-
-        public Pair(K key, V value){
-            this.key = key;
-            this.value = value;
-        }
-
-        public K getKey() {
-            return key;
-        }
-
-        public V getValue() {
-            return value;
-        }
     }
 
     // 103. 二叉树的锯齿形层次遍历
@@ -93,5 +95,29 @@ public class Solution {
             list.add(e.removeFirst());
         }
         return list;
+    }
+
+    // 279. 完全平方数
+    public int numSquares(int n) {
+        assert n > 0;
+        Queue<Pair<Integer, Integer>> queue = new ArrayDeque<>();
+        queue.add(new Pair<>(n, 0));
+        boolean[] visited = new boolean[n+1];
+        visited[n] = true;
+        while (!queue.isEmpty()){
+            int num = queue.peek().key;
+            int step = queue.peek().value;
+            queue.remove();
+            for (int i=1;;i++){
+                int temp = num - i * i;
+                if (temp < 0) break;
+                if (temp == 0) return step + 1;
+                if (!visited[temp]){
+                    queue.add(new Pair<>(temp, step + 1));
+                    visited[temp] = true;
+                }
+            }
+        }
+        throw new IllegalArgumentException("No Solution.");
     }
 }
