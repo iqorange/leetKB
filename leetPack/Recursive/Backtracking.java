@@ -85,4 +85,28 @@ public class Backtracking {
         }
         return true;
     }
+
+    // 46. 全排列
+    List<List<Integer>> permute;
+    public List<List<Integer>> permute(int[] nums) {
+        permute = new ArrayList<>();
+        if (nums.length == 0){
+            return permute;
+        }
+        generatePermutation(nums, 0, new ArrayList<>());
+        return permute;
+    }
+    private void generatePermutation(final int[] nums, int index, List<Integer> p){
+        if (index == nums.length){
+            permute.add(new ArrayList<>(p));
+            return;
+        }
+        for (int num : nums) {
+            if (!p.contains(num)) {
+                p.add(num);
+                generatePermutation(nums, index + 1, p);
+                p.remove(p.size()-1);
+            }
+        }
+    }
 }
