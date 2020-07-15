@@ -103,7 +103,6 @@ public class Client {
         // 得到Socket输出流
         OutputStream outputStream = client.getOutputStream();
 
-
         // 得到Socket输入流
         InputStream inputStream = client.getInputStream();
         byte[] buffer = new byte[256];
