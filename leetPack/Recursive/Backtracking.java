@@ -109,4 +109,51 @@ public class Backtracking {
             }
         }
     }
+
+    // 77. 组合 1...n select count k
+    List<List<Integer>> combine;
+    public List<List<Integer>> combine(int n, int k) {
+        combine = new ArrayList<>();
+        if (n <= 0 || k <= 0 || k > n){
+            return combine;
+        }
+        generateCombinations(n, k, 1, new ArrayList<>());
+        return combine;
+    }
+    // C(n, k) from start
+    private void generateCombinations(int n, int k, int start, List<Integer> c){
+        if (c.size() == k){
+            // save
+            combine.add(new ArrayList<>(c));
+            return;
+        }
+        for (int i=start;i<=n-(k-c.size())+1;i++){
+            c.add(i);
+            generateCombinations(n, k, i + 1, c);
+            c.remove(c.size() - 1);
+        }
+    }
+
+    // 39. 组合总和
+    List<List<Integer>> combinationSum;
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        combinationSum = new ArrayList<>();
+        assert candidates.length >= 1 && candidates.length <= 30;
+        assert target >= 1 && target <= 500;
+        Arrays.sort(candidates);
+        generateCombinationSum(candidates, target, new ArrayList<>(), 0, 0);
+        return combinationSum;
+    }
+    private void generateCombinationSum(int[] candidates, int target, List<Integer> cs, int sum, int start){
+        if (sum == target){
+            combinationSum.add(new ArrayList<>(cs));
+            return;
+        }
+        for (int i=start;i<candidates.length;i++){
+            if (sum + candidates[i] > target) break;
+            cs.add(candidates[i]);
+            generateCombinationSum(candidates, target, cs, sum + candidates[i], i);
+            cs.remove(cs.size() - 1);
+        }
+    }
 }
