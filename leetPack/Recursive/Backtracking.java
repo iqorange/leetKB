@@ -156,4 +156,48 @@ public class Backtracking {
             cs.remove(cs.size() - 1);
         }
     }
+
+    // 79. 单词搜索
+    private int m, n;
+    private boolean[][] visited;
+    private int[][] direct = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+    public boolean exist(char[][] board, String word) {
+        m = board.length;
+        assert m > 0;
+        n = board[0].length;
+        visited = new boolean[m][n];
+        for(int i=0;i<m;i++) {
+            for (int j = 0; j < n; j++) {
+                visited[i][j] = false;
+            }
+        }
+        for(int i=0;i<m;i++){
+            for (int j=0;j<n;j++){
+                if (searchWord(board, word, 0, i, j)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean searchWord(char[][] board, final String word, int index, int startX, int startY){
+        if (index == word.length() - 1){
+            return board[startX][startY] == word.charAt(index);
+        }
+        if (board[startX][startY] == word.charAt(index)){
+            visited[startX][startY] = true;
+            for (int[] d: direct){
+                int newX = startX + d[0];
+                int newY = startY + d[1];
+                if (inArea(newX, newY) && !visited[newX][newY] && searchWord(board, word, index + 1, newX, newY)){
+                    return true;
+                }
+            }
+            visited[startX][startY] = false;
+        }
+        return false;
+    }
+    private boolean inArea(int x, int y){
+        return x >= 0 && x < m && y >= 0 && y < n;
+    }
 }
