@@ -200,4 +200,87 @@ public class Backtracking {
     private boolean inArea(int x, int y){
         return x >= 0 && x < m && y >= 0 && y < n;
     }
+
+    // 200. 岛屿数量
+//    private int m, n;
+//    private boolean[][] visited;
+//    private int[][] direct = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    public int numIslands(char[][] grid) {
+        if(grid == null || grid.length == 0 || grid[0].length == 0) return 0;
+        m = grid.length;
+        n = grid[0].length;
+        visited = new boolean[m][n];
+        for(int i=0;i<m;i++) {
+            for (int j = 0; j < n; j++) {
+                visited[i][j] = false;
+            }
+        }
+        int result = 0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j] == '1' && !visited[i][j]){
+                    result++;
+                    dfs(grid, i, j);
+                }
+            }
+        }
+        return result;
+    }
+    private void dfs(char[][] grid, int x, int y){
+        visited[x][y] = true;
+        for (int i=0;i<4;i++){
+            int newX = x + direct[i][0];
+            int newY = y + direct[i][1];
+            if(inArea(newX, newY) && !visited[newX][newY] && grid[newX][newY] == '1'){
+                dfs(grid, newX, newY);
+            }
+        }
+    }
+//    private boolean inArea(int x, int y){
+//        return x >= 0 && x < m && y >= 0 && y < n;
+//    }
+
+    // 51. N 皇后
+    private boolean[] col;
+    private boolean[] dia1;
+    private boolean[] dia2;
+    private ArrayList<List<String>> res;
+    public List<List<String>> solveNQueens(int n) {
+        res = new ArrayList<List<String>>();
+        col = new boolean[n];
+        dia1 = new boolean[2 * n - 1];
+        dia2 = new boolean[2 * n - 1];
+        LinkedList<Integer> row = new LinkedList<Integer>();
+        putQueen(n, 0, row);
+        return res;
+    }
+    private void putQueen(int n, int index, LinkedList<Integer> row){
+        if(index == n){
+            res.add(generateBoard(n, row));
+            return;
+        }
+        for(int i = 0 ; i < n ; i ++)
+            if(!col[i] && !dia1[index + i] && !dia2[index - i + n - 1]){
+                row.addLast(i);
+                col[i] = true;
+                dia1[index + i] = true;
+                dia2[index - i + n - 1] = true;
+                putQueen(n, index + 1, row);
+                col[i] = false;
+                dia1[index + i] = false;
+                dia2[index - i + n - 1] = false;
+                row.removeLast();
+            }
+    }
+    private List<String> generateBoard(int n, LinkedList<Integer> row){
+        assert row.size() == n;
+        ArrayList<String> board = new ArrayList<String>();
+        for(int i = 0 ; i < n ; i ++){
+            char[] charArray = new char[n];
+            Arrays.fill(charArray, '.');
+            charArray[row.get(i)] = 'Q';
+            board.add(new String(charArray));
+        }
+        return board;
+    }
 }
