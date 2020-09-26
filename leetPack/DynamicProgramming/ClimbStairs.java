@@ -3,10 +3,9 @@ package leetPack.DynamicProgramming;
 public class ClimbStairs {
     public int climbStairs(int n) {
         assert n > 0;
-        return calcWays(n);
-    }
-    private int calcWays(int n) {
-        if(n == 0 || n == 1) return 1;
-        return calcWays(n - 1) + calcWays(n - 2);
+        int[] memo = new int[n + 1];
+        memo[0] = 1; memo[1] = 1;
+        for(int i=2;i<=n;i++) memo[i] = memo[i - 1] + memo[i - 2];
+        return memo[n];
     }
 }
