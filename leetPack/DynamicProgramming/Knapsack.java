@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 // 背包问题
 public class Knapsack {
+    // 自顶向下
     private int[][] memo1;
     public int knapsack1(final int[] w, final int[] v, int C){
         memo1 = new int[w.length][C + 1];
@@ -22,7 +23,7 @@ public class Knapsack {
         memo1[index][c] = res;
         return res;
     }
-
+    // 自底向上 - 动态规划
     public int knapsack2(final int[] w, final int[] v, int C){
         assert w.length == v.length;
         int n = w.length;
@@ -34,7 +35,7 @@ public class Knapsack {
         }
         for(int i=1;i<n;i++){
             for(int j=0;j<=C;j++){
-                memo[i][j] = memo[i-1][j];
+                memo[i][j] = memo[i - 1][j];
                 if (j >= w[i]){
                     memo[i][j] = Math.max(memo[i][j], v[i] + memo[i - 1][j - w[i]]);
                 }
