@@ -31,6 +31,7 @@ public class MazeSolverVisualizer {
     // 动画逻辑
     private void run(){
         setData(-1, -1, false);
+        MazeSolverVisHelper.pause(10000);
         if (!go(data.getEntranceX(), data.getEnreanceY())){
             System.out.println("The maze has No solution~");
         }
@@ -68,7 +69,7 @@ public class MazeSolverVisualizer {
     }
 
     public static void main(String[] args){
-        String mazeFile = "./src/Graph/GUIMaze/MazeSolver/maze_101_101.txt";
+        String mazeFile = "./Graph/GUIMaze/MazeSolver/maze_101_101.txt";
         MazeSolverVisualizer visualizer = new MazeSolverVisualizer(mazeFile);
     }
 }

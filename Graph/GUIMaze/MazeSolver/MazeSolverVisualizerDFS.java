@@ -78,7 +78,7 @@ public class MazeSolverVisualizerDFS {
     }
 
     public static void main(String[] args){
-        String mazeFile = "./src/Graph/GUIMaze/MazeSolver/maze_101_101.txt";
+        String mazeFile = "./Graph/GUIMaze/MazeSolver/maze_101_101.txt";
         MazeSolverVisualizerDFS visualizer = new MazeSolverVisualizerDFS(mazeFile);
     }
 }

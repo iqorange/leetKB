@@ -31,7 +31,7 @@ public class MPVisualizer {
     // 动画逻辑
     private void run(){
         while (true){
-//            Arrays.sort(money);
+            Arrays.sort(money);
             frame.render(money);
             MPVisHelper.pause(DELAY);
             for (int k=0;k<50;k++){

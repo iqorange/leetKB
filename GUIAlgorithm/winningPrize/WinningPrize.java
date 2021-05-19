@@ -37,8 +37,8 @@ public class WinningPrize {
     }
 
     public static void main(String[] args) {
-        double chance = 0.2;
-        int playTime = 5;
+        double chance = 0.02;
+        int playTime = 500;
         int N = 10000000;
         WinningPrize winningPrize = new WinningPrize(chance, playTime, N);
         winningPrize.run();
